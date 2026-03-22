@@ -1,0 +1,58 @@
+﻿BlogCore.sln
+├── BlogCore.API/                 # Web API project
+├── BlogCore.Core/                # Domain models (your BlogPost, Category)
+├── BlogCore.Infrastructure/      # DbContext, configurations, migrations
+├── BlogCore.Application/         # Business logic
+└── BlogCore.Tests/               # Unit tests
+
+
+BlogCore.sln
+├── BlogCore.API/
+│   ├── BlogCore.API.csproj
+│   ├── Controllers/
+│   ├── Program.cs
+│   ├── appsettings.json
+│   └── DTOs/ (optional)
+│
+├── BlogCore.Core/
+│   ├── BlogCore.Core.csproj
+│   ├── Entities/
+│   │   ├── BlogPost.cs
+│   │   ├── Category.cs
+│   │   ├── Comment.cs
+│   │   ├── Tag.cs
+│   │   └── User.cs
+│   │   └── BlogPostCategory.cs
+│   ├── Enums/
+│   │   └── PostStatus.cs
+│   └── Interfaces/
+│       └── IRepository.cs
+│
+├── BlogCore.Infrastructure/
+│   ├── BlogCore.Infrastructure.csproj
+│   ├── Data/
+│   │   ├── BlogDbContext.cs
+│   │   └── Configurations/
+│   │       ├── CategoryConfiguration.cs
+│   │       └── BlogPostConfiguration.cs
+│   │       └── CommentConfiguration.cs
+            
+│   ├── Migrations/
+│   └── Repositories/
+│
+├── BlogCore.Application/
+│   ├── BlogCore.Application.csproj
+│   ├── Interfaces/
+│   │   ├── IBlogPostService.cs
+│   │   └── ICategoryService.cs
+│   ├── Implementations/
+│   │   ├── BlogPostService.cs
+│   │   └── CategoryService.cs
+│   └── DTOs/ (optional - shared DTOs)
+│
+└── BlogCore.Tests/
+    ├── BlogCore.Tests.csproj
+    ├── UnitTests/
+    ├── IntegrationTests/
+    └── TestHelpers/
+
