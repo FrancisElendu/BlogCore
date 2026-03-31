@@ -1,6 +1,6 @@
 ﻿namespace BlogCore.Core.Entities
 {
-    public class BlogPostCategory
+    public class BlogPostCategories
     {
         public Guid BlogPostId { get; set; }
         public Guid CategoryId { get; set; }

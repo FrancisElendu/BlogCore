@@ -16,6 +16,8 @@ namespace BlogCore.Infrastructure.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<BlogPostCategories> BlogPostCategories { get; set; }
+        public DbSet<BlogPostTags> BlogPostTags { get; set; }
 
         // This is where the configurations are applied
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,7 +26,7 @@ namespace BlogCore.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new BlogPostConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
-
+     
             // Option 2: Apply all configurations from an assembly (if you have many)
             // modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
