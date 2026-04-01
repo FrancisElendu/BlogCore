@@ -15,12 +15,22 @@ namespace BlogCore.Core.Entities
 
         public string DisplayName { get; set; }
 
+        [Required]
+        public string PasswordHash { get; set; }  // Add this - stores hashed password
+
         public virtual ICollection<BlogPost> BlogPosts { get; set; }
         public Guid Id { get; set; }
+
+        // Optional: Add audit fields
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? LastLoginAt { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public User()
         {
             BlogPosts = new HashSet<BlogPost>();
+            CreatedAt = DateTime.UtcNow;
         }
     }
 }
