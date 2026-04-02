@@ -1,7 +1,12 @@
 ﻿using BlogCore.Core.Enums;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BlogCore.Core.DTOs
+namespace BlogCore.Application.DTOs.BlogPost
 {
     public class CreateBlogPostDto
     {

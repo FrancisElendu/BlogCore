@@ -25,12 +25,13 @@ namespace BlogCore.Core.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
 
         public User()
         {
             BlogPosts = new HashSet<BlogPost>();
             CreatedAt = DateTime.UtcNow;
+            IsActive = true;
         }
     }
 }

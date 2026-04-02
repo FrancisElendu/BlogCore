@@ -1,6 +1,9 @@
-﻿using BlogCore.Core.Enums;
+﻿using BlogCore.Application.DTOs.Category;
+using BlogCore.Application.DTOs.Comment;
+using BlogCore.Application.DTOs.Tag;
+using BlogCore.Core.Enums;
 
-namespace BlogCore.Core.DTOs
+namespace BlogCore.Application.DTOs.BlogPost
 {
     public class BlogPostResponseDto
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlogCore.Core.DTOs
+namespace BlogCore.Application.DTOs.Comment
 {
     public class CreateCommentDto
     {

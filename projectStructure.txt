@@ -1,4 +1,115 @@
-﻿BlogCore.sln
+﻿    #New Template
+
+    BlogCore.sln
+├── BlogCore.API/
+│   ├── BlogCore.API.csproj
+│   ├── Controllers/
+│   │   ├── BlogPostsController.cs
+│   │   ├── UsersController.cs
+│   │   ├── CategoriesController.cs
+│   │   └── CommentsController.cs
+│   ├── Middleware/
+│   ├── Program.cs
+│   ├── appsettings.json
+│   └── appsettings.Development.json
+│
+├── BlogCore.Core/
+│   ├── BlogCore.Core.csproj
+│   ├── Entities/
+│   │   ├── BlogPost.cs
+│   │   ├── Category.cs
+│   │   ├── Comment.cs
+│   │   ├── Tag.cs
+│   │   ├── User.cs
+│   │   ├── BlogPostCategory.cs
+│   │   └── BlogPostTag.cs
+│   ├── Enums/
+│   │   └── PostStatus.cs
+│   ├── Interfaces/
+│   │   └── IEntity.cs
+│   │   └── IRepository.cs (domain interface)
+│   └── Exceptions/
+│       └── DomainException.cs
+│
+├── BlogCore.Infrastructure/
+│   ├── BlogCore.Infrastructure.csproj
+│   ├── Data/
+│   │   ├── BlogDbContext.cs
+│   │   └── Configurations/
+│   │       ├── CategoryConfiguration.cs
+│   │       ├── BlogPostConfiguration.cs
+│   │       └── CommentConfiguration.cs
+│   ├── Migrations/
+│   └── Repositories/
+│       └── SqlRepository.cs (implements IRepository)
+│
+├── BlogCore.Application/
+│   ├── BlogCore.Application.csproj
+│   ├── Interfaces/
+│   │   ├── Services/
+│   │   │   ├── IBlogPostService.cs
+│   │   │   ├── IUserService.cs
+│   │   │   ├── ICategoryService.cs
+│   │   │   └── ICommentService.cs
+│   │   └── Infrastructure/
+│   │       └── IRepository.cs (if you want to abstract further)
+│   ├── Services/
+│   │   ├── BlogPostService.cs
+│   │   ├── UserService.cs
+│   │   ├── CategoryService.cs
+│   │   └── CommentService.cs
+│   ├── DTOs/
+│   │   ├── BlogPost/
+│   │   │   ├── CreateBlogPostDto.cs
+│   │   │   ├── UpdateBlogPostDto.cs
+│   │   │   ├── BlogPostResponseDto.cs
+│   │   │   └── BlogPostSummaryDto.cs
+│   │   ├── User/
+│   │   │   ├── CreateUserDto.cs
+│   │   │   ├── UpdateUserDto.cs
+│   │   │   ├── UserResponseDto.cs
+│   │   │   ├── UserLoginDto.cs
+│   │   │   └── UserProfileDto.cs
+│   │   ├── Category/
+│   │   │   ├── CreateCategoryDto.cs
+│   │   │   ├── UpdateCategoryDto.cs
+│   │   │   └── CategoryResponseDto.cs
+│   │   └── Comment/
+│   │       ├── CreateCommentDto.cs
+│   │       ├── UpdateCommentDto.cs
+│   │       ├── CommentResponseDto.cs
+│   │       └── ModerateCommentDto.cs
+│   ├── Mappings/
+│   │   └── AutoMapperProfile.cs
+│   ├── Validators/
+│   │   ├── CreateBlogPostValidator.cs
+│   │   ├── CreateUserValidator.cs
+│   │   └── CreateCommentValidator.cs
+│   └── Common/
+│       ├── BaseService.cs (optional)
+│       └── PaginatedResult.cs
+│
+└── BlogCore.Tests/
+    ├── BlogCore.Tests.csproj
+    ├── UnitTests/
+    │   ├── Application/
+    │   │   ├── BlogPostServiceTests.cs
+    │   │   └── UserServiceTests.cs
+    │   └── Domain/
+    │       └── EntitiesTests.cs
+    ├── IntegrationTests/
+    │   ├── Controllers/
+    │   │   └── BlogPostsControllerTests.cs
+    │   └── Database/
+    │       └── RepositoryTests.cs
+    └── TestHelpers/
+        ├── TestDataFactory.cs
+        └── MockDbContext.cs
+
+
+        #Old Template
+
+        BlogCore.sln
 ├── BlogCore.API/                 # Web API project
 ├── BlogCore.Core/                # Domain models (your BlogPost, Category)
 ├── BlogCore.Infrastructure/      # DbContext, configurations, migrations
@@ -55,4 +166,3 @@ BlogCore.sln
     ├── UnitTests/
     ├── IntegrationTests/
     └── TestHelpers/
-

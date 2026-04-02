@@ -1,4 +1,4 @@
-﻿namespace BlogCore.Core.DTOs
+﻿namespace BlogCore.Application.DTOs.Category
 {
     public class CategoryDto
     {
