@@ -43,13 +43,13 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
             {
                 _logger.LogInformation("Starting database seeding from JSON files...");
 
-                //await SeedUsersAsync();
-                //await SeedCategoriesAsync();
-                //await SeedTagsAsync();
-                //await SeedBlogPostsAsync();
-                //await SeedBlogPostCategoriesAsync();
-                //await SeedBlogPostTagsAsync();
-                //await SeedCommentsAsync();
+                await SeedUsersAsync();
+                await SeedCategoriesAsync();
+                await SeedTagsAsync();
+                await SeedBlogPostsAsync();
+                await SeedBlogPostCategoriesAsync();
+                await SeedBlogPostTagsAsync();
+                await SeedCommentsAsync();
 
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Database seeding completed successfully.");

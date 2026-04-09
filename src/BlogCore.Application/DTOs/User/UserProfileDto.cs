@@ -1,4 +1,6 @@
-﻿namespace BlogCore.Application.DTOs.User
+﻿using BlogCore.Application.DTOs.BlogPost;
+
+namespace BlogCore.Application.DTOs.User
 {
     public class UserProfileDto
     {

@@ -1,3 +1,4 @@
+using BlogCore.API;
 using BlogCore.Infrastructure.Data;
 
 
@@ -25,5 +26,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Seed database using extension method
+await app.SeedDatabaseAsync();
 
 app.Run();
