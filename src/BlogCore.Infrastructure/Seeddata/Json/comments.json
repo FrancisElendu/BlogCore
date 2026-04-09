@@ -1,0 +1,94 @@
+{
+  "Comments": [
+    {
+      "Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaad",
+      "Content": "Great tutorial! Very helpful for beginners.",
+      "AuthorName": "Mike Johnson",
+      "AuthorEmail": "mike@example.com",
+      "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-04-10T10:00:00Z"
+    },
+    {
+      "Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbee",
+      "Content": "Can you cover async/await patterns in C#?",
+      "AuthorName": "Sarah Williams",
+      "AuthorEmail": "sarah@example.com",
+      "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-04-12T10:00:00Z"
+    },
+    {
+      "Id": "cccccccc-cccc-cccc-cccc-ccccccccccff",
+      "Content": "This is exactly what I was looking for. Thanks!",
+      "AuthorName": "Tom Davis",
+      "AuthorEmail": "tom@example.com",
+      "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-04-15T10:00:00Z"
+    },
+    {
+      "Id": "dddddddd-dddd-dddd-dddd-dddddddddd10",
+      "Content": "The section on query optimization is gold!",
+      "AuthorName": "Emily Chen",
+      "AuthorEmail": "emily@example.com",
+      "BlogPostId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbdd",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-05-05T10:00:00Z"
+    },
+    {
+      "Id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeee11",
+      "Content": "I agree! The N+1 query explanation was excellent.",
+      "AuthorName": "David Lee",
+      "AuthorEmail": "david@example.com",
+      "BlogPostId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbdd",
+      "ParentCommentId": "dddddddd-dddd-dddd-dddd-dddddddddd10",
+      "IsApproved": true,
+      "CreatedAt": "2024-05-06T10:00:00Z"
+    },
+    {
+      "Id": "ffffffff-ffff-ffff-ffff-fffffffffff2",
+      "Content": "How would you handle authentication in this architecture?",
+      "AuthorName": "Rachel Martinez",
+      "AuthorEmail": "rachel@example.com",
+      "BlogPostId": "cccccccc-cccc-cccc-cccc-ccccccccccce",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-05-20T10:00:00Z"
+    },
+    {
+      "Id": "11111111-1111-1111-1111-111111111113",
+      "Content": "This seems spammy. Click here for cheap watches!",
+      "AuthorName": "Spam Bot",
+      "AuthorEmail": "spam@example.com",
+      "BlogPostId": "cccccccc-cccc-cccc-cccc-ccccccccccce",
+      "ParentCommentId": null,
+      "IsApproved": false,
+      "CreatedAt": "2024-06-05T10:00:00Z"
+    },
+    {
+      "Id": "22222222-2222-2222-2222-222222222223",
+      "Content": "The custom hooks section was very helpful!",
+      "AuthorName": "Chris Wilson",
+      "AuthorEmail": "chris@example.com",
+      "BlogPostId": "dddddddd-dddd-dddd-dddd-ddddddddddff",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-05-25T10:00:00Z"
+    },
+    {
+      "Id": "33333333-3333-3333-3333-333333333334",
+      "Content": "Could you do a follow-up on useContext with TypeScript?",
+      "AuthorName": "Jessica Brown",
+      "AuthorEmail": "jessica@example.com",
+      "BlogPostId": "dddddddd-dddd-dddd-dddd-ddddddddddff",
+      "ParentCommentId": null,
+      "IsApproved": true,
+      "CreatedAt": "2024-05-28T10:00:00Z"
+    }
+  ]
+}

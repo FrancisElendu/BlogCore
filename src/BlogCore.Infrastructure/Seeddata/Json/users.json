@@ -1,0 +1,49 @@
+{
+  "Users": [
+    {
+      "Id": "11111111-1111-1111-1111-111111111111",
+      "Username": "john_doe",
+      "Email": "john.doe@example.com",
+      "DisplayName": "John Doe",
+      "PasswordHash": "DUMMY_HASH_WILL_BE_REPLACED",
+      "CreatedAt": "2024-01-15T10:00:00Z",
+      "IsActive": true
+    },
+    {
+      "Id": "22222222-2222-2222-2222-222222222222",
+      "Username": "jane_smith",
+      "Email": "jane.smith@example.com",
+      "DisplayName": "Jane Smith",
+      "PasswordHash": "DUMMY_HASH_WILL_BE_REPLACED",
+      "CreatedAt": "2024-02-20T10:00:00Z",
+      "IsActive": true
+    },
+    {
+      "Id": "33333333-3333-3333-3333-333333333333",
+      "Username": "bob_wilson",
+      "Email": "bob.wilson@example.com",
+      "DisplayName": "Bob Wilson",
+      "PasswordHash": "DUMMY_HASH_WILL_BE_REPLACED",
+      "CreatedAt": "2024-03-10T10:00:00Z",
+      "IsActive": true
+    },
+    {
+      "Id": "44444444-4444-4444-4444-444444444444",
+      "Username": "alice_johnson",
+      "Email": "alice.johnson@example.com",
+      "DisplayName": "Alice Johnson",
+      "PasswordHash": "DUMMY_HASH_WILL_BE_REPLACED",
+      "CreatedAt": "2024-04-05T10:00:00Z",
+      "IsActive": true
+    },
+    {
+      "Id": "55555555-5555-5555-5555-555555555555",
+      "Username": "charlie_brown",
+      "Email": "charlie.brown@example.com",
+      "DisplayName": "Charlie Brown",
+      "PasswordHash": "DUMMY_HASH_WILL_BE_REPLACED",
+      "CreatedAt": "2024-05-12T10:00:00Z",
+      "IsActive": true
+    }
+  ]
+}

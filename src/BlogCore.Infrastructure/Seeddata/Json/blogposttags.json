@@ -1,0 +1,52 @@
+{
+  "BlogPostTags": [
+    {
+      "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
+      "TagId": "66666666-6666-6666-6666-666666666666"
+    },
+    {
+      "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
+      "TagId": "88888888-8888-8888-8888-888888888888"
+    },
+    {
+      "BlogPostId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbdd",
+      "TagId": "77777777-7777-7777-7777-777777777777"
+    },
+    {
+      "BlogPostId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbdd",
+      "TagId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbc"
+    },
+    {
+      "BlogPostId": "cccccccc-cccc-cccc-cccc-ccccccccccce",
+      "TagId": "77777777-7777-7777-7777-777777777777"
+    },
+    {
+      "BlogPostId": "cccccccc-cccc-cccc-cccc-ccccccccccce",
+      "TagId": "99999999-9999-9999-9999-999999999999"
+    },
+    {
+      "BlogPostId": "dddddddd-dddd-dddd-dddd-ddddddddddff",
+      "TagId": "66666666-6666-6666-6666-666666666666"
+    },
+    {
+      "BlogPostId": "dddddddd-dddd-dddd-dddd-ddddddddddff",
+      "TagId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab"
+    },
+    {
+      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeeg",
+      "TagId": "66666666-6666-6666-6666-666666666666"
+    },
+    {
+      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeeg",
+      "TagId": "88888888-8888-8888-8888-888888888888"
+    },
+    {
+      "BlogPostId": "ffffffff-ffff-ffff-ffff-fffffffffff1",
+      "TagId": "dddddddd-dddd-dddd-dddd-ddddddddddde"
+    },
+    {
+      "BlogPostId": "ffffffff-ffff-ffff-ffff-fffffffffff1",
+      "TagId": "cccccccc-cccc-cccc-cccc-cccccccccccd"
+    }
+  ]
+}

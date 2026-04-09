@@ -15,9 +15,14 @@ namespace BlogCore.Core.Entities
         public virtual ICollection<BlogPost> BlogPosts { get; set; }
         public Guid Id { get; set; }
 
+        // Add audit fields
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
         public Tag()
         {
             BlogPosts = new HashSet<BlogPost>();
+            CreatedAt = DateTime.UtcNow;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlogCore.Application.Interfaces;
+using BlogCore.Infrastructure.Seeddata.Seeders;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MSSQLFlexCrud.DatatContext;
@@ -29,7 +31,7 @@ namespace BlogCore.Infrastructure.Data
 
             services.AddScoped<AppDbContext>(provider => provider.GetRequiredService<BlogDbContext>());
 
-            //services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
+            services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
             services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
         }
     }
