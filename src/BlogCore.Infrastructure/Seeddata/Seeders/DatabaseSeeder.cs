@@ -26,8 +26,10 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
             _context = context;
             _logger = logger;
             _environment = environment;
-            _seedDataPath = Path.Combine(_environment.ContentRootPath, "SeedData", "Json");
+            //_seedDataPath = Path.Combine(_environment.ContentRootPath, "SeedData", "Json");
             //_seedDataPath = Path.Combine(AppContext.BaseDirectory, "SeedData");
+            // _seedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SeedData", "Json");
+            _seedDataPath = Path.Combine(_environment.ContentRootPath, "..", "BlogCore.Infrastructure", "SeedData", "Json");
         }
         public async Task SeedAsync()
         {

@@ -1,64 +1,62 @@
-{
-  "Tags": [
-    {
-      "Id": "66666666-6666-6666-6666-666666666666",
-      "Name": "Tutorial",
-      "Slug": "tutorial",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "77777777-7777-7777-7777-777777777777",
-      "Name": "Best Practices",
-      "Slug": "best-practices",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "88888888-8888-8888-8888-888888888888",
-      "Name": "Beginner",
-      "Slug": "beginner",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "99999999-9999-9999-9999-999999999999",
-      "Name": "Advanced",
-      "Slug": "advanced",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab",
-      "Name": "Tips & Tricks",
-      "Slug": "tips-tricks",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbc",
-      "Name": "Performance",
-      "Slug": "performance",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "cccccccc-cccc-cccc-cccc-cccccccccccd",
-      "Name": "Security",
-      "Slug": "security",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "dddddddd-dddd-dddd-dddd-ddddddddddde",
-      "Name": "Cloud",
-      "Slug": "cloud",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeef",
-      "Name": "Database",
-      "Slug": "database",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "ffffffff-ffff-ffff-ffff-fffffffffff0",
-      "Name": "API",
-      "Slug": "api",
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    }
+    [
+      {
+        "Id": "66666666-6666-6666-6666-666666666666",
+        "Name": "Tutorial",
+        "Slug": "tutorial",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "77777777-7777-7777-7777-777777777777",
+        "Name": "Best Practices",
+        "Slug": "best-practices",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "88888888-8888-8888-8888-888888888888",
+        "Name": "Beginner",
+        "Slug": "beginner",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "99999999-9999-9999-9999-999999999999",
+        "Name": "Advanced",
+        "Slug": "advanced",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab",
+        "Name": "Tips & Tricks",
+        "Slug": "tips-tricks",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbc",
+        "Name": "Performance",
+        "Slug": "performance",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "cccccccc-cccc-cccc-cccc-cccccccccccd",
+        "Name": "Security",
+        "Slug": "security",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "dddddddd-dddd-dddd-dddd-ddddddddddde",
+        "Name": "Cloud",
+        "Slug": "cloud",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeef",
+        "Name": "Database",
+        "Slug": "database",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      },
+      {
+        "Id": "ffffffff-ffff-ffff-ffff-fffffffffff0",
+        "Name": "API",
+        "Slug": "api",
+        "CreatedAt": "2024-01-01T10:00:00Z"
+      }
   ]
-}

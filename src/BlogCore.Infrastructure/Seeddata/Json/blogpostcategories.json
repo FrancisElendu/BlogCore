@@ -1,5 +1,4 @@
-{
-  "BlogPostCategories": [
+[
     {
       "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
       "CategoryId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
@@ -37,11 +36,11 @@
       "CategoryId": "22222222-2222-2222-2222-222222222222"
     },
     {
-      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeeg",
+      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee1",
       "CategoryId": "dddddddd-dddd-dddd-dddd-dddddddddddd"
     },
     {
-      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeeg",
+      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee1",
       "CategoryId": "33333333-3333-3333-3333-333333333333"
     },
     {
@@ -53,4 +52,3 @@
       "CategoryId": "44444444-4444-4444-4444-444444444444"
     }
   ]
-}

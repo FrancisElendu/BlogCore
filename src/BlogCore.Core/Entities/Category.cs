@@ -1,6 +1,7 @@
 ﻿using MSSQLFlexCrud;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BlogCore.Core.Entities
 {
@@ -19,9 +20,13 @@ namespace BlogCore.Core.Entities
         public Guid? ParentCategoryId { get; set; }
 
         [ForeignKey("ParentCategoryId")]
+        [JsonIgnore]
         public virtual Category ParentCategory { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Category> SubCategories { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<BlogPost> BlogPosts { get; set; }
 
         public DateTime CreatedAt { get; set; }

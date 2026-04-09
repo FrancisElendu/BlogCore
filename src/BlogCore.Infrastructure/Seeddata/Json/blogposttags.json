@@ -1,5 +1,4 @@
-{
-  "BlogPostTags": [
+[
     {
       "BlogPostId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac",
       "TagId": "66666666-6666-6666-6666-666666666666"
@@ -33,11 +32,11 @@
       "TagId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab"
     },
     {
-      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeeg",
+      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee1",
       "TagId": "66666666-6666-6666-6666-666666666666"
     },
     {
-      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeeg",
+      "BlogPostId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee1",
       "TagId": "88888888-8888-8888-8888-888888888888"
     },
     {
@@ -49,4 +48,3 @@
       "TagId": "cccccccc-cccc-cccc-cccc-cccccccccccd"
     }
   ]
-}

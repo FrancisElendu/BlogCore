@@ -1,6 +1,7 @@
 ﻿using MSSQLFlexCrud;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BlogCore.Core.Entities
 {
@@ -16,13 +17,16 @@ namespace BlogCore.Core.Entities
         public Guid BlogPostId { get; set; }
 
         [ForeignKey("BlogPostId")]
+        [JsonIgnore]
         public virtual BlogPost BlogPost { get; set; }
 
         public Guid? ParentCommentId { get; set; }
 
         [ForeignKey("ParentCommentId")]
+        [JsonIgnore]
         public virtual Comment ParentComment { get; set; }
-
+        
+        [JsonIgnore]
         public virtual ICollection<Comment> Replies { get; set; }
 
         public bool IsApproved { get; set; }

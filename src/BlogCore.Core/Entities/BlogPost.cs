@@ -2,11 +2,13 @@
 using MSSQLFlexCrud;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BlogCore.Core.Entities
 {
     public class BlogPost : IEntity
     {
+        public Guid Id { get; set; }
         [Required]
         [StringLength(200)]
         public string Title { get; set; }
@@ -33,16 +35,22 @@ namespace BlogCore.Core.Entities
         public Guid AuthorId { get; set; }
 
         [ForeignKey("AuthorId")]
+        [JsonIgnore]
         public virtual User Author { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Category> Categories { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Comment> Comments { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Tag> Tags { get; set; }
 
         public DateTime PublishedAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public Guid Id { get; set; }
+        
 
         public BlogPost()
         {

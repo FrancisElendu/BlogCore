@@ -1,5 +1,6 @@
 ﻿using MSSQLFlexCrud;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BlogCore.Core.Entities
 {
@@ -18,6 +19,7 @@ namespace BlogCore.Core.Entities
         [Required]
         public string PasswordHash { get; set; }  // Add this - stores hashed password
 
+        [JsonIgnore]
         public virtual ICollection<BlogPost> BlogPosts { get; set; }
         public Guid Id { get; set; }
 
