@@ -1,84 +1,70 @@
 [
   {
-    "Id": "88888888-8888-8888-8888-888888888801",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "users.view"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888802",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "users.create"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888803",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "users.edit"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888804",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "users.delete"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888805",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "posts.view.all"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888806",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "posts.create"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888807",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "posts.edit.all"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888808",
     "RoleId": "77777777-7777-7777-7777-777777777701",
     "ClaimType": "Permission",
     "ClaimValue": "posts.delete.all"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888809",
     "RoleId": "77777777-7777-7777-7777-777777777702",
     "ClaimType": "Permission",
     "ClaimValue": "posts.view.own"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888810",
     "RoleId": "77777777-7777-7777-7777-777777777702",
     "ClaimType": "Permission",
     "ClaimValue": "posts.create"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888811",
     "RoleId": "77777777-7777-7777-7777-777777777702",
     "ClaimType": "Permission",
     "ClaimValue": "posts.edit.own"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888812",
     "RoleId": "77777777-7777-7777-7777-777777777703",
     "ClaimType": "Permission",
     "ClaimValue": "posts.view.all"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888813",
     "RoleId": "77777777-7777-7777-7777-777777777703",
     "ClaimType": "Permission",
     "ClaimValue": "posts.edit.all"
   },
   {
-    "Id": "88888888-8888-8888-8888-888888888814",
     "RoleId": "77777777-7777-7777-7777-777777777704",
     "ClaimType": "Permission",
     "ClaimValue": "posts.view.published"

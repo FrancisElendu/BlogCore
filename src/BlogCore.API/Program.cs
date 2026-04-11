@@ -31,6 +31,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Seed database using extension method
-//await app.SeedDatabaseAsync();
+await app.SeedDatabaseAsync();
 
 app.Run();

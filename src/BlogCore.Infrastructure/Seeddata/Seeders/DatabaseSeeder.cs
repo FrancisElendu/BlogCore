@@ -33,9 +33,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
             _environment = environment;
             _userManager = userManager;
             _roleManager = roleManager;
-            //_seedDataPath = Path.Combine(_environment.ContentRootPath, "SeedData", "Json");
-            //_seedDataPath = Path.Combine(AppContext.BaseDirectory, "SeedData");
-            // _seedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SeedData", "Json");
             _seedDataPath = Path.Combine(_environment.ContentRootPath, "..", "BlogCore.Infrastructure", "SeedData", "Json");
         }
         public async Task SeedAsync()
@@ -70,14 +67,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 await SeedBlogPostTagsAsync();
                 await SeedCommentsAsync();
 
-                //await SeedUsersAsync();
-                //await SeedCategoriesAsync();
-                //await SeedTagsAsync();
-                //await SeedBlogPostsAsync();
-                //await SeedBlogPostCategoriesAsync();
-                //await SeedBlogPostTagsAsync();
-                //await SeedCommentsAsync();
-
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Database seeding completed successfully.");
             }
@@ -86,8 +75,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 _logger.LogError(ex, "An error occurred while seeding the database.");
                 throw;
             }
-
-
         }
 
 
@@ -239,35 +226,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
 
         #region Individual Seed Methods
 
-        //private async Task SeedUsersAsync()
-        //{
-        //    if (await _context.Users.AnyAsync())
-        //    {
-        //        _logger.LogInformation("Users already exist. Skipping seeding.");
-        //        return;
-        //    }
-
-        //    // Simple seeding - no post-processing needed
-        //    await SeedAsync<User>("users.json", user =>
-        //    {
-        //        // Sync post-processing: Hash passwords
-        //        if (user.PasswordHash == "DUMMY_HASH_WILL_BE_REPLACED")
-        //        {
-        //            user.PasswordHash = BC.HashPassword("Password123!");
-        //        }
-
-        //        // Set default values if missing
-        //        if (user.CreatedAt == default)
-        //            user.CreatedAt = DateTime.UtcNow;
-
-        //        if (user.Id == Guid.Empty)
-        //            user.Id = Guid.NewGuid();
-
-        //        return Task.CompletedTask;
-        //    });           
-        //}
-
-
         private async Task SeedCategoriesAsync()
         {
             if (await _context.Categories.AnyAsync())
@@ -276,7 +234,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            //await SeedAsync<Category>("categories.json", category =>   //if this is used then return Task.CompletedTask; 
             await SeedAsync<Category>("categories.json", async category =>
             {
                 // Sync post-processing: Generate slug if missing
@@ -297,7 +254,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
 
                 
                 await Task.CompletedTask;
-                //return Task.CompletedTask;
             });
         }
 
@@ -309,7 +265,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            //await SeedAsync<Tag>("tags.json", tag =>  //if this is used then return Task.CompletedTask;
             await SeedAsync<Tag>("tags.json", async tag =>
             {
                 // Sync post-processing: Generate slug if missing
@@ -326,8 +281,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                     tag.Id = Guid.NewGuid();
 
                 await Task.CompletedTask;
-
-                //return Task.CompletedTask;
             });
         }
 
@@ -339,7 +292,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            //await SeedAsync<BlogPost>("blogposts.json", blogPost => //if this is used then return Task.CompletedTask;
             await SeedAsync<BlogPost>("blogposts.json", async blogPost =>
             {
                 // Sync post-processing: Generate excerpt from content if not provided
@@ -374,8 +326,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                     blogPost.LikeCount = 0;
 
                 await Task.CompletedTask;
-
-                //return Task.CompletedTask;
             });
         }
 
@@ -411,7 +361,6 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            //await SeedAsync<Comment>("comments.json", comment =>  //if this is used then return Task.CompletedTask;
             await SeedAsync<Comment>("comments.json", async comment =>    
             {
                 // Sync post-processing: Trim content if too long
@@ -426,39 +375,8 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                     comment.Id = Guid.NewGuid();
 
                 await Task.CompletedTask;
-
-                //return Task.CompletedTask;
             });
         }
-
-        //var jsonPath = Path.Combine(_seedDataPath, "users.json");
-
-        //// Use extension method
-        //if (!await jsonPath.ValidateJsonFileAsync(_logger))
-        //{
-        //    return;
-        //}
-
-
-        //var jsonContent = await File.ReadAllTextAsync(jsonPath);
-
-        //// Deserialize directly into List<User>
-        //var users = JsonSerializer.Deserialize<List<User>>(jsonContent);
-
-        //if (users == null) return;
-
-        //// Hash passwords after deserialization
-        //foreach (var user in users)
-        //{
-        //    if (user.PasswordHash == "DUMMY_HASH_WILL_BE_REPLACED")
-        //    {
-        //        user.PasswordHash = BC.HashPassword("Password123!");
-        //    }
-        //}
-
-        //await _context.Users.AddRangeAsync(users);
-        //_logger.LogInformation("Seeded {Count} users from JSON.", users.Count);
-
 
         #endregion
 
@@ -582,27 +500,5 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
         }
 
         #endregion
-
-        //private async Task SeedDataAsync<T>(string fileName) where T : class
-        //{
-        //    if (await _context.Set<T>().AnyAsync())
-        //    {
-        //        _logger.LogInformation("{EntityName} already exist. Skipping seeding.", typeof(T).Name);
-        //        return;
-        //    }
-        //    var jsonPath = Path.Combine(_seedDataPath, fileName);
-        //    if (!await jsonPath.ValidateJsonFileAsync(_logger))
-        //    {
-        //        return;
-        //    }
-        //    var jsonContent = await File.ReadAllTextAsync(jsonPath);
-        //    var entities = JsonSerializer.Deserialize<List<T>>(jsonContent);
-        //    if (entities == null) return;
-        //    await _context.Set<T>().AddRangeAsync(entities);
-        //    _logger.LogInformation("Seeded {Count} {EntityName} from JSON.", entities.Count, typeof(T).Name);
-        //}
-
-
-
     }
 }
