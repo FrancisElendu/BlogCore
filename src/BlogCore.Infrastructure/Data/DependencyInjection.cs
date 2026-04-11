@@ -1,5 +1,7 @@
 ﻿using BlogCore.Application.Interfaces;
+using BlogCore.Core.Entities;
 using BlogCore.Infrastructure.Seeddata.Seeders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,9 +31,22 @@ namespace BlogCore.Infrastructure.Data
                 )
             );
 
+            // Register Identity with default settings (no custom options)
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+            {
+                options.User.RequireUniqueEmail = true; // Recommended for blogs
+            })
+            .AddEntityFrameworkStores<BlogDbContext>()
+            .AddDefaultTokenProviders();
+
+            // Register AppDbContext for backward compatibility (pointing to same database)
             services.AddScoped<AppDbContext>(provider => provider.GetRequiredService<BlogDbContext>());
 
+            // Register custom services
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
+
+            // Register the generic repository from the NuGet package
+            // It will work with AppDbContext (which will now be BlogDbContext)
             services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
         }
     }

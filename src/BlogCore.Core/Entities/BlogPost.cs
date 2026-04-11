@@ -34,9 +34,12 @@ namespace BlogCore.Core.Entities
 
         public Guid AuthorId { get; set; }
 
+        //[ForeignKey("AuthorId")]
+        //[JsonIgnore]
+        //public virtual User Author { get; set; }
         [ForeignKey("AuthorId")]
         [JsonIgnore]
-        public virtual User Author { get; set; }
+        public virtual ApplicationUser Author { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Category> Categories { get; set; }

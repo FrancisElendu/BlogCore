@@ -28,6 +28,8 @@ namespace BlogCore.Core.Entities
         public DateTime? UpdatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
         public bool IsActive { get; set; }
+        public string RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryDate { get; set; }
 
         public User()
         {
