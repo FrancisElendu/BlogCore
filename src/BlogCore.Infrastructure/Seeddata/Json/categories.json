@@ -1,82 +1,82 @@
-   [
-    {
-      "Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-      "Name": "Technology",
-      "Description": "Latest technology trends, news, and insights",
-      "Slug": "technology",
-      "ParentCategoryId": null,
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-      "Name": "Programming",
-      "Description": "Software development, coding tips, and programming languages",
-      "Slug": "programming",
-      "ParentCategoryId": null,
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-      "Name": "Web Development",
-      "Description": "Frontend and backend web development",
-      "Slug": "web-development",
-      "ParentCategoryId": null,
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "dddddddd-dddd-dddd-dddd-dddddddddddd",
-      "Name": "Data Science",
-      "Description": "Data analysis, machine learning, and AI",
-      "Slug": "data-science",
-      "ParentCategoryId": null,
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
-      "Name": "DevOps",
-      "Description": "CI/CD, containers, and cloud computing",
-      "Slug": "devops",
-      "ParentCategoryId": null,
-      "CreatedAt": "2024-01-01T10:00:00Z"
-    },
-    {
-      "Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-      "Name": "C#",
-      "Description": "C# programming language and .NET ecosystem",
-      "Slug": "csharp",
-      "ParentCategoryId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-      "CreatedAt": "2024-01-15T10:00:00Z"
-    },
-    {
-      "Id": "11111111-1111-1111-1111-111111111111",
-      "Name": "JavaScript",
-      "Description": "JavaScript, TypeScript, and frameworks",
-      "Slug": "javascript",
-      "ParentCategoryId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-      "CreatedAt": "2024-01-15T10:00:00Z"
-    },
-    {
-      "Id": "22222222-2222-2222-2222-222222222222",
-      "Name": "React",
-      "Description": "React.js library and ecosystem",
-      "Slug": "react",
-      "ParentCategoryId": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-      "CreatedAt": "2024-01-15T10:00:00Z"
-    },
-    {
-      "Id": "33333333-3333-3333-3333-333333333333",
-      "Name": "Python",
-      "Description": "Python programming for data science",
-      "Slug": "python",
-      "ParentCategoryId": "dddddddd-dddd-dddd-dddd-dddddddddddd",
-      "CreatedAt": "2024-01-15T10:00:00Z"
-    },
-    {
-      "Id": "44444444-4444-4444-4444-444444444444",
-      "Name": "Docker",
-      "Description": "Containerization with Docker",
-      "Slug": "docker",
-      "ParentCategoryId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
-      "CreatedAt": "2024-01-15T10:00:00Z"
-    }
-  ]
+[
+  {
+    "Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "Name": "Technology",
+    "Description": "Latest technology trends, news, and insights",
+    "Slug": "technology",
+    "ParentCategoryId": null,
+    "CreatedAt": "2024-01-01T10:00:00Z"
+  },
+  {
+    "Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+    "Name": "Programming",
+    "Description": "Software development, coding tips, and programming languages",
+    "Slug": "programming",
+    "ParentCategoryId": null,
+    "CreatedAt": "2024-01-01T10:00:00Z"
+  },
+  {
+    "Id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+    "Name": "Web Development",
+    "Description": "Frontend and backend web development",
+    "Slug": "web-development",
+    "ParentCategoryId": null,
+    "CreatedAt": "2024-01-01T10:00:00Z"
+  },
+  {
+    "Id": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+    "Name": "Data Science",
+    "Description": "Data analysis, machine learning, and AI",
+    "Slug": "data-science",
+    "ParentCategoryId": null,
+    "CreatedAt": "2024-01-01T10:00:00Z"
+  },
+  {
+    "Id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+    "Name": "DevOps",
+    "Description": "CI/CD, containers, and cloud computing",
+    "Slug": "devops",
+    "ParentCategoryId": null,
+    "CreatedAt": "2024-01-01T10:00:00Z"
+  },
+  {
+    "Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+    "Name": "C#",
+    "Description": "C# programming language and .NET ecosystem",
+    "Slug": "csharp",
+    "ParentCategoryId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+    "CreatedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": "11111111-1111-1111-1111-111111111111",
+    "Name": "JavaScript",
+    "Description": "JavaScript, TypeScript, and frameworks",
+    "Slug": "javascript",
+    "ParentCategoryId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+    "CreatedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": "22222222-2222-2222-2222-222222222222",
+    "Name": "React",
+    "Description": "React.js library and ecosystem",
+    "Slug": "react",
+    "ParentCategoryId": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+    "CreatedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": "33333333-3333-3333-3333-333333333333",
+    "Name": "Python",
+    "Description": "Python programming for data science",
+    "Slug": "python",
+    "ParentCategoryId": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+    "CreatedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": "44444444-4444-4444-4444-444444444444",
+    "Name": "Docker",
+    "Description": "Containerization with Docker",
+    "Slug": "docker",
+    "ParentCategoryId": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+    "CreatedAt": "2024-01-15T10:00:00Z"
+  }
+]

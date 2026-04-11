@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "77777777-7777-7777-7777-777777777701",
+    "Name": "Admin",
+    "NormalizedName": "ADMIN",
+    "ConcurrencyStamp": "CONCURRENCY_STAMP_ROLE_ADMIN"
+  },
+  {
+    "Id": "77777777-7777-7777-7777-777777777702",
+    "Name": "Author",
+    "NormalizedName": "AUTHOR",
+    "ConcurrencyStamp": "CONCURRENCY_STAMP_ROLE_AUTHOR"
+  },
+  {
+    "Id": "77777777-7777-7777-7777-777777777703",
+    "Name": "Editor",
+    "NormalizedName": "EDITOR",
+    "ConcurrencyStamp": "CONCURRENCY_STAMP_ROLE_EDITOR"
+  },
+  {
+    "Id": "77777777-7777-7777-7777-777777777704",
+    "Name": "User",
+    "NormalizedName": "USER",
+    "ConcurrencyStamp": "CONCURRENCY_STAMP_ROLE_USER"
+  }
+]

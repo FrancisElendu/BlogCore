@@ -1,0 +1,14 @@
+[
+  {
+    "LoginProvider": "Google",
+    "ProviderKey": "google-oauth2-123456789",
+    "ProviderDisplayName": "Google",
+    "UserId": "11111111-1111-1111-1111-111111111111"
+  },
+  {
+    "LoginProvider": "GitHub",
+    "ProviderKey": "github-456789123",
+    "ProviderDisplayName": "GitHub",
+    "UserId": "33333333-3333-3333-3333-333333333333"
+  }
+]
