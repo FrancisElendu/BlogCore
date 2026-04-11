@@ -3,6 +3,7 @@ using BlogCore.Core.Entities;
 using BlogCore.Core.Enums;
 using BlogCore.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,16 +17,22 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
         private readonly BlogDbContext _context;
         private readonly ILogger<DatabaseSeeder> _logger;
         private readonly IHostEnvironment _environment;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly string _seedDataPath;
 
         public DatabaseSeeder(
             BlogDbContext context,
             ILogger<DatabaseSeeder> logger,
-            IHostEnvironment environment)
+            IHostEnvironment environment, 
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole<Guid>> roleManager)
         {
             _context = context;
             _logger = logger;
             _environment = environment;
+            _userManager = userManager;
+            _roleManager = roleManager;
             //_seedDataPath = Path.Combine(_environment.ContentRootPath, "SeedData", "Json");
             //_seedDataPath = Path.Combine(AppContext.BaseDirectory, "SeedData");
             // _seedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SeedData", "Json");
@@ -45,13 +52,31 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
             {
                 _logger.LogInformation("Starting database seeding from JSON files...");
 
+                // Seed Identity tables (in correct order)
+                await SeedRolesAsync();
                 await SeedUsersAsync();
+                await SeedUserRolesAsync();
+                await SeedRoleClaimsAsync();
+                await SeedUserClaimsAsync();
+                await SeedUserLoginsAsync();
+                await SeedUserTokensAsync();
+
+
+                // Seed Blog tables
                 await SeedCategoriesAsync();
                 await SeedTagsAsync();
                 await SeedBlogPostsAsync();
                 await SeedBlogPostCategoriesAsync();
                 await SeedBlogPostTagsAsync();
                 await SeedCommentsAsync();
+
+                //await SeedUsersAsync();
+                //await SeedCategoriesAsync();
+                //await SeedTagsAsync();
+                //await SeedBlogPostsAsync();
+                //await SeedBlogPostCategoriesAsync();
+                //await SeedBlogPostTagsAsync();
+                //await SeedCommentsAsync();
 
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Database seeding completed successfully.");
@@ -66,35 +91,181 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
         }
 
 
-        #region Individual Seed Methods
+        #region Identity Tables Seeding
 
+        private async Task SeedRolesAsync()
+        {
+            if (await _roleManager.Roles.AnyAsync())
+            {
+                _logger.LogInformation("Roles already exist. Skipping seeding.");
+                return;
+            }
+
+            var jsonPath = Path.Combine(_seedDataPath, "roles.json");
+            if (!File.Exists(jsonPath))
+            {
+                _logger.LogWarning("Roles seed file not found: {JsonPath}", jsonPath);
+                return;
+            }
+
+            var jsonContent = await File.ReadAllTextAsync(jsonPath);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            // Deserialize directly into IdentityRole<Guid>
+            var roles = JsonSerializer.Deserialize<List<IdentityRole<Guid>>>(jsonContent, options);
+
+            if (roles == null || !roles.Any())
+            {
+                _logger.LogWarning("No roles found in roles.json");
+                return;
+            }
+
+            foreach (var role in roles)
+            {
+                var result = await _roleManager.CreateAsync(role);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Created role: {RoleName}", role.Name);
+                }
+                else
+                {
+                    _logger.LogError("Failed to create role {RoleName}: {Errors}",
+                        role.Name, string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
+        }
         private async Task SeedUsersAsync()
         {
-            if (await _context.Users.AnyAsync())
+            if (await _userManager.Users.AnyAsync())
             {
                 _logger.LogInformation("Users already exist. Skipping seeding.");
                 return;
             }
 
-            // Simple seeding - no post-processing needed
-            await SeedAsync<User>("users.json", user =>
+            var jsonPath = Path.Combine(_seedDataPath, "users.json");
+            if (!File.Exists(jsonPath))
             {
-                // Sync post-processing: Hash passwords
-                if (user.PasswordHash == "DUMMY_HASH_WILL_BE_REPLACED")
+                _logger.LogWarning("Users seed file not found: {JsonPath}", jsonPath);
+                return;
+            }
+
+            var jsonContent = await File.ReadAllTextAsync(jsonPath);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            // Deserialize directly into ApplicationUser
+            var users = JsonSerializer.Deserialize<List<ApplicationUser>>(jsonContent, options);
+
+            if (users == null || !users.Any())
+            {
+                _logger.LogWarning("No users found in users.json");
+                return;
+            }
+
+            foreach (var user in users)
+            {
+                // Create user with default password
+                var result = await _userManager.CreateAsync(user, "Password123!");
+
+                if (result.Succeeded)
                 {
-                    user.PasswordHash = BC.HashPassword("Password123!");
+                    _logger.LogInformation("Created user: {UserName}", user.UserName);
                 }
-
-                // Set default values if missing
-                if (user.CreatedAt == default)
-                    user.CreatedAt = DateTime.UtcNow;
-
-                if (user.Id == Guid.Empty)
-                    user.Id = Guid.NewGuid();
-
-                return Task.CompletedTask;
-            });           
+                else
+                {
+                    _logger.LogError("Failed to create user {UserName}: {Errors}",
+                        user.UserName, string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
         }
+        private async Task SeedUserRolesAsync()
+        {
+            if (await _context.UserRoles.AnyAsync())
+            {
+                _logger.LogInformation("User roles already exist. Skipping seeding.");
+                return;
+            }
+
+            await SeedAsync<IdentityUserRole<Guid>>("userroles.json");
+        }
+        private async Task SeedRoleClaimsAsync()
+        {
+            if (await _context.RoleClaims.AnyAsync())
+            {
+                _logger.LogInformation("Role claims already exist. Skipping seeding.");
+                return;
+            }
+
+            await SeedAsync<IdentityRoleClaim<Guid>>("roleclaims.json");
+        }
+        private async Task SeedUserClaimsAsync()
+        {
+            if (await _context.UserClaims.AnyAsync())
+            {
+                _logger.LogInformation("User claims already exist. Skipping seeding.");
+                return;
+            }
+
+            await SeedAsync<IdentityUserClaim<Guid>>("userclaims.json");
+        }
+        private async Task SeedUserLoginsAsync()
+        {
+            if (await _context.UserLogins.AnyAsync())
+            {
+                _logger.LogInformation("User logins already exist. Skipping seeding.");
+                return;
+            }
+
+            await SeedAsync<IdentityUserLogin<Guid>>("userlogins.json");
+        }
+        private async Task SeedUserTokensAsync()
+        {
+            if (await _context.UserTokens.AnyAsync())
+            {
+                _logger.LogInformation("User tokens already exist. Skipping seeding.");
+                return;
+            }
+
+            await SeedAsync<IdentityUserToken<Guid>>("usertokens.json");
+        }
+        #endregion
+
+        #region Individual Seed Methods
+
+        //private async Task SeedUsersAsync()
+        //{
+        //    if (await _context.Users.AnyAsync())
+        //    {
+        //        _logger.LogInformation("Users already exist. Skipping seeding.");
+        //        return;
+        //    }
+
+        //    // Simple seeding - no post-processing needed
+        //    await SeedAsync<User>("users.json", user =>
+        //    {
+        //        // Sync post-processing: Hash passwords
+        //        if (user.PasswordHash == "DUMMY_HASH_WILL_BE_REPLACED")
+        //        {
+        //            user.PasswordHash = BC.HashPassword("Password123!");
+        //        }
+
+        //        // Set default values if missing
+        //        if (user.CreatedAt == default)
+        //            user.CreatedAt = DateTime.UtcNow;
+
+        //        if (user.Id == Guid.Empty)
+        //            user.Id = Guid.NewGuid();
+
+        //        return Task.CompletedTask;
+        //    });           
+        //}
 
 
         private async Task SeedCategoriesAsync()
@@ -105,7 +276,8 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            await SeedAsync<Category>("categories.json", category =>
+            //await SeedAsync<Category>("categories.json", category =>   //if this is used then return Task.CompletedTask; 
+            await SeedAsync<Category>("categories.json", async category =>
             {
                 // Sync post-processing: Generate slug if missing
                 if (string.IsNullOrEmpty(category.Slug))
@@ -123,7 +295,9 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 if (category.Id == Guid.Empty)
                     category.Id = Guid.NewGuid();
 
-                return Task.CompletedTask;
+                
+                await Task.CompletedTask;
+                //return Task.CompletedTask;
             });
         }
 
@@ -135,7 +309,8 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            await SeedAsync<Tag>("tags.json", tag =>
+            //await SeedAsync<Tag>("tags.json", tag =>  //if this is used then return Task.CompletedTask;
+            await SeedAsync<Tag>("tags.json", async tag =>
             {
                 // Sync post-processing: Generate slug if missing
                 if (string.IsNullOrEmpty(tag.Slug))
@@ -150,7 +325,9 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 if (tag.Id == Guid.Empty)
                     tag.Id = Guid.NewGuid();
 
-                return Task.CompletedTask;
+                await Task.CompletedTask;
+
+                //return Task.CompletedTask;
             });
         }
 
@@ -162,7 +339,8 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            await SeedAsync<BlogPost>("blogposts.json", blogPost =>
+            //await SeedAsync<BlogPost>("blogposts.json", blogPost => //if this is used then return Task.CompletedTask;
+            await SeedAsync<BlogPost>("blogposts.json", async blogPost =>
             {
                 // Sync post-processing: Generate excerpt from content if not provided
                 if (string.IsNullOrEmpty(blogPost.Excerpt) && !string.IsNullOrEmpty(blogPost.Content))
@@ -195,7 +373,9 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 if (blogPost.LikeCount < 0)
                     blogPost.LikeCount = 0;
 
-                return Task.CompletedTask;
+                await Task.CompletedTask;
+
+                //return Task.CompletedTask;
             });
         }
 
@@ -231,7 +411,8 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 return;
             }
 
-            await SeedAsync<Comment>("comments.json", comment =>
+            //await SeedAsync<Comment>("comments.json", comment =>  //if this is used then return Task.CompletedTask;
+            await SeedAsync<Comment>("comments.json", async comment =>    
             {
                 // Sync post-processing: Trim content if too long
                 if (comment.Content?.Length > 500)
@@ -244,7 +425,9 @@ namespace BlogCore.Infrastructure.Seeddata.Seeders
                 if (comment.Id == Guid.Empty)
                     comment.Id = Guid.NewGuid();
 
-                return Task.CompletedTask;
+                await Task.CompletedTask;
+
+                //return Task.CompletedTask;
             });
         }
 
