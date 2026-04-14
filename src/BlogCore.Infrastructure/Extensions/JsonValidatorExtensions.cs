@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace BlogCore.Infrastructure.Seeddata.Seeders
+namespace BlogCore.Infrastructure.Extensions
 {
     public static class JsonValidatorExtensions
     {

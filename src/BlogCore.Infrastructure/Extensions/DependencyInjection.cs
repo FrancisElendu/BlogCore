@@ -1,6 +1,9 @@
 ﻿using BlogCore.Application.Interfaces;
+using BlogCore.Application.Interfaces.Services;
 using BlogCore.Core.Entities;
+using BlogCore.Infrastructure.Data;
 using BlogCore.Infrastructure.Seeddata.Seeders;
+using BlogCore.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +12,7 @@ using MSSQLFlexCrud.DatatContext;
 using MSSQLFlexCrud.Repositories;
 using MSSQLFlexCrud.SqlDb;
 
-namespace BlogCore.Infrastructure.Data
+namespace BlogCore.Infrastructure.Extensions
 {
     public static class DependencyInjection
     {
@@ -45,9 +48,15 @@ namespace BlogCore.Infrastructure.Data
             // Register custom services
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
+            // Register Auth Service
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
+
             // Register the generic repository from the NuGet package
             // It will work with AppDbContext (which will now be BlogDbContext)
             services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
+
+
         }
     }
 }

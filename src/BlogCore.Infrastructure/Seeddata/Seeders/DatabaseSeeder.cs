@@ -2,6 +2,7 @@
 using BlogCore.Core.Entities;
 using BlogCore.Core.Enums;
 using BlogCore.Infrastructure.Data;
+using BlogCore.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
