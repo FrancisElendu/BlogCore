@@ -210,6 +210,15 @@ namespace BlogCore.Infrastructure.Services
             }
         }
 
+        public async Task<string> GetUsernameAsync(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {userId} not found");
+
+            return user.UserName;
+        }
+
 
 
         #region Private Helper Methods
@@ -218,16 +227,24 @@ namespace BlogCore.Infrastructure.Services
         {
             return new List<Claim>
             {
+                // Full CRUD on users
                 new Claim("Permission", "users.view"),
                 new Claim("Permission", "users.create"),
                 new Claim("Permission", "users.edit"),
                 new Claim("Permission", "users.delete"),
+        
+                // Full CRUD on posts
                 new Claim("Permission", "posts.view.all"),
                 new Claim("Permission", "posts.create"),
                 new Claim("Permission", "posts.edit.all"),
                 new Claim("Permission", "posts.delete.all"),
-                new Claim("Permission", "posts.edit.own"),
-                new Claim("Permission", "comments.moderate")
+                new Claim("Permission", "posts.edit.own"), // Also included
+                new Claim("Permission", "posts.view.own"), // Also included
+                new Claim("Permission", "posts.view.published"), // Also included
+        
+                // Comment moderation
+                new Claim("Permission", "comments.moderate"),
+                new Claim("Permission", "comments.view")
             };
         }
 
@@ -235,9 +252,16 @@ namespace BlogCore.Infrastructure.Services
         {
             return new List<Claim>
             {
+                // Authors can view their own posts (including drafts)
                 new Claim("Permission", "posts.view.own"),
+        
+                // Authors CAN create new posts
                 new Claim("Permission", "posts.create"),
+        
+                // Authors can edit their own posts
                 new Claim("Permission", "posts.edit.own"),
+        
+                // Authors can view comments on their posts
                 new Claim("Permission", "comments.view")
             };
         }
@@ -246,8 +270,13 @@ namespace BlogCore.Infrastructure.Services
         {
             return new List<Claim>
             {
+                // Editors can view all posts
                 new Claim("Permission", "posts.view.all"),
+        
+                // Editors can edit any post (but not create new ones necessarily)
                 new Claim("Permission", "posts.edit.all"),
+        
+                // Editors can moderate comments
                 new Claim("Permission", "comments.moderate")
             };
         }
@@ -256,8 +285,14 @@ namespace BlogCore.Infrastructure.Services
         {
             return new List<Claim>
             {
+                // Regular users can ONLY VIEW published posts, NOT create them
                 new Claim("Permission", "posts.view.published"),
-                new Claim("Permission", "comments.create")
+        
+                // Regular users can create comments
+                new Claim("Permission", "comments.create"),
+        
+                // Regular users DO NOT have "posts.create" permission
+                // That's reserved for Authors and Admins
             };
         }
 

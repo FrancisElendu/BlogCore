@@ -368,6 +368,12 @@ namespace BlogCore.Infrastructure.Services
                 claims.Add(new Claim("Permission", "posts.delete.all"));
                 claims.Add(new Claim("Permission", "posts.edit.own"));
                 claims.Add(new Claim("Permission", "comments.moderate"));
+                claims.Add(new Claim("Permission", "posts.view.own")); // Also included
+                claims.Add(new Claim("Permission", "posts.view.published")); // Also included
+        
+                // Comment moderation
+                claims.Add(new Claim("Permission", "comments.moderate"));
+                claims.Add(new Claim("Permission", "comments.view"));
                 claims.Add(new Claim("Role", "Admin"));
             }
             else if (roles.Contains("Author"))

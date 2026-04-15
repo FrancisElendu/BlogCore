@@ -107,6 +107,22 @@
         └── MockDbContext.cs
 
 
+Role Capabilities Summary Table
+Capability	            User	Author	Editor	Admin
+View published posts	✅	     ✅	     ✅	     ✅
+View own drafts	        ❌	     ✅	     ✅	     ✅
+View all posts	        ❌	     ❌	     ✅	     ✅
+Create new post	        ❌	     ✅	     ❌	     ✅
+Edit own post	        ❌	     ✅	     ✅	     ✅
+Edit any post	        ❌	     ❌	     ✅	     ✅
+Delete any post	        ❌	     ❌	     ❌	     ✅
+Create comments	        ✅	     ✅	     ✅	     ✅
+Moderate comments	    ❌	     ❌	     ✅	     ✅
+Manage users	        ❌	     ❌	     ❌	     ✅
+
+
+
+
         #Old Template
 
         BlogCore.sln

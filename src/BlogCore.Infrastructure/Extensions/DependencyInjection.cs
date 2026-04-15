@@ -52,6 +52,9 @@ namespace BlogCore.Infrastructure.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
 
+            // Register UserManagementService
+            services.AddScoped<IUserManagementService, UserManagementService>();
+
             // Register the generic repository from the NuGet package
             // It will work with AppDbContext (which will now be BlogDbContext)
             services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
