@@ -135,6 +135,9 @@ namespace BlogCore.Infrastructure.Services
                 // Assign roles
                 await AssignRolesToUserAsync(user, registerDto.Roles);
 
+                // Assign default claims based on roles
+                await AssignDefaultClaimsToUserAsync(user, registerDto.Roles);
+
 
                 _logger.LogInformation("User registered successfully: {Username}", user.UserName);
                 return true;
@@ -336,6 +339,66 @@ namespace BlogCore.Infrastructure.Services
                     await _userManager.AddToRoleAsync(user, role);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Assigns default claims to a user based on their roles
+        /// </summary>
+        private async Task AssignDefaultClaimsToUserAsync(ApplicationUser user, List<string> roles)
+        {
+            var claims = new List<Claim>();
+
+            // Base claims for all users
+            claims.Add(new Claim("UserId", user.Id.ToString()));
+            claims.Add(new Claim("Email", user.Email));
+            claims.Add(new Claim("DisplayName", user.DisplayName ?? user.UserName));
+            claims.Add(new Claim("AccountCreated", user.CreatedAt.ToString("o")));
+
+            // Role-based claims
+            if (roles.Contains("Admin"))
+            {
+                claims.Add(new Claim("Permission", "users.view"));
+                claims.Add(new Claim("Permission", "users.create"));
+                claims.Add(new Claim("Permission", "users.edit"));
+                claims.Add(new Claim("Permission", "users.delete"));
+                claims.Add(new Claim("Permission", "posts.view.all"));
+                claims.Add(new Claim("Permission", "posts.create"));
+                claims.Add(new Claim("Permission", "posts.edit.all"));
+                claims.Add(new Claim("Permission", "posts.delete.all"));
+                claims.Add(new Claim("Permission", "posts.edit.own"));
+                claims.Add(new Claim("Permission", "comments.moderate"));
+                claims.Add(new Claim("Role", "Admin"));
+            }
+            else if (roles.Contains("Author"))
+            {
+                claims.Add(new Claim("Permission", "posts.view.own"));
+                claims.Add(new Claim("Permission", "posts.create"));
+                claims.Add(new Claim("Permission", "posts.edit.own"));
+                claims.Add(new Claim("Permission", "comments.view"));
+                claims.Add(new Claim("Role", "Author"));
+            }
+            else if (roles.Contains("Editor"))
+            {
+                claims.Add(new Claim("Permission", "posts.view.all"));
+                claims.Add(new Claim("Permission", "posts.edit.all"));
+                claims.Add(new Claim("Permission", "comments.moderate"));
+                claims.Add(new Claim("Role", "Editor"));
+            }
+            else // Default User role
+            {
+                claims.Add(new Claim("Permission", "posts.view.published"));
+                claims.Add(new Claim("Permission", "comments.create"));
+                claims.Add(new Claim("Role", "User"));
+            }
+
+            // Add all claims to the user
+            foreach (var claim in claims)
+            {
+                await _userManager.AddClaimAsync(user, claim);
+            }
+
+            _logger.LogInformation("Assigned {ClaimCount} claims to user {Username}", claims.Count, user.UserName);
         }
         #endregion
 

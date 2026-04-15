@@ -65,46 +65,85 @@ namespace BlogCore.Infrastructure.Extensions
             services.AddAuthorization(options =>
             {
                 // Role-based policies
-                options.AddPolicy("AdminOnly", policy =>
-                    policy.RequireRole("Admin"));
-
-                options.AddPolicy("AuthorOrAdmin", policy =>
-                    policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") ||
-                        context.User.IsInRole("Author")));
-
-                options.AddPolicy("EditorOrAdmin", policy =>
-                    policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") ||
-                        context.User.IsInRole("Editor")));
-
-                // Claim-based policies
-                options.AddPolicy("CanEditPosts", policy =>
-                    policy.RequireClaim("Permission", "posts.edit.own", "posts.edit.all"));
-
-                options.AddPolicy("CanDeletePosts", policy =>
-                    policy.RequireClaim("Permission", "posts.delete.all"));
-
-                options.AddPolicy("CanViewAllPosts", policy =>
-                    policy.RequireAssertion(context =>
-                        context.User.HasClaim("Permission", "posts.view.all") ||
-                        context.User.IsInRole("Admin")));
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 
                 options.AddPolicy("CanCreatePosts", policy =>
                     policy.RequireClaim("Permission", "posts.create"));
 
-                options.AddPolicy("CanManageUsers", policy =>
-                    policy.RequireClaim("Permission", "users.manage"));
+                options.AddPolicy("CanEditAnyPost", policy =>
+                    policy.RequireClaim("Permission", "posts.edit.all"));
 
-                // Combination policies
-                options.AddPolicy("ContentModerator", policy =>
+                options.AddPolicy("CanEditOwnPost", policy =>
+                    policy.RequireClaim("Permission", "posts.edit.own"));
+
+                options.AddPolicy("CanViewAllPosts", policy =>
+                    policy.RequireClaim("Permission", "posts.view.all"));
+
+                options.AddPolicy("CanViewPublishedPosts", policy =>
+                    policy.RequireClaim("Permission", "posts.view.published"));
+
+                // Combined policy for post editing
+                options.AddPolicy("CanEditPost", policy =>
                     policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") ||
-                        context.User.IsInRole("Editor") ||
-                        context.User.HasClaim("Permission", "posts.edit.all")));
+                        context.User.HasClaim("Permission", "posts.edit.all") ||
+                        context.User.HasClaim("Permission", "posts.edit.own")));
+
+                // Combined policy for post viewing
+                options.AddPolicy("CanViewPost", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim("Permission", "posts.view.all") ||
+                        context.User.HasClaim("Permission", "posts.view.own") ||
+                        context.User.HasClaim("Permission", "posts.view.published")));
             });
 
             return services;
+
+            // old implementation with more policies, but for simplicity we will just add a few basic ones here. You can expand as needed.
+            //services.AddAuthorization(options =>
+            //{
+            //    // Role-based policies
+            //    options.AddPolicy("AdminOnly", policy =>
+            //        policy.RequireRole("Admin"));
+
+            //    options.AddPolicy("AuthorOrAdmin", policy =>
+            //        policy.RequireAssertion(context =>
+            //            context.User.IsInRole("Admin") ||
+            //            context.User.IsInRole("Author")));
+
+            //    options.AddPolicy("EditorOrAdmin", policy =>
+            //        policy.RequireAssertion(context =>
+            //            context.User.IsInRole("Admin") ||
+            //            context.User.IsInRole("Editor")));
+
+            //    // Claim-based policies
+            //    options.AddPolicy("CanEditPosts", policy =>
+            //        policy.RequireClaim("Permission", "posts.edit.own", "posts.edit.all"));
+
+            //    options.AddPolicy("CanDeletePosts", policy =>
+            //        policy.RequireClaim("Permission", "posts.delete.all"));
+
+            //    options.AddPolicy("CanViewAllPosts", policy =>
+            //        policy.RequireAssertion(context =>
+            //            context.User.HasClaim("Permission", "posts.view.all") ||
+            //            context.User.IsInRole("Admin")));
+
+            //    options.AddPolicy("CanCreatePosts", policy =>
+            //        policy.RequireClaim("Permission", "posts.create"));
+
+            //    options.AddPolicy("CanManageUsers", policy =>
+            //        policy.RequireClaim("Permission", "users.manage"));
+
+            //    // Combination policies
+            //    options.AddPolicy("ContentModerator", policy =>
+            //        policy.RequireAssertion(context =>
+            //            context.User.IsInRole("Admin") ||
+            //            context.User.IsInRole("Editor") ||
+            //            context.User.HasClaim("Permission", "posts.edit.all")));
+            //});
+
+            //return services;
+
+            // end of old implementation, now we will just add a few basic policies for simplicity. You can expand as needed.
         }
 
         /// <summary>
