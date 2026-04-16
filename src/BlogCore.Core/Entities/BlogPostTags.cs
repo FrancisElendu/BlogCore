@@ -13,9 +13,9 @@ namespace BlogCore.Core.Entities
         public Guid TagId { get; set; }
 
         [JsonIgnore]
-        public virtual BlogPost BlogPost { get; set; }
+        public virtual BlogPost BlogPost { get; set; } = null;
 
         [JsonIgnore]
-        public virtual Tag Tag { get; set; }
+        public virtual Tag Tag { get; set; } = null;
     }
 }

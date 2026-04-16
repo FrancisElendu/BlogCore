@@ -217,7 +217,7 @@ namespace BlogCore.Infrastructure.Services
             if (user == null)
                 throw new KeyNotFoundException($"User with ID {userId} not found");
 
-            return user.UserName;
+            return user.UserName ?? string.Empty; // Add null check with fallback
         }
 
 

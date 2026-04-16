@@ -11,21 +11,22 @@ namespace BlogCore.Core.Entities
         public Guid Id { get; set; }
         [Required]
         [StringLength(200)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [Required]
         [StringLength(500)]
-        public string Slug { get; set; }
+        public string Slug { get; set; } = string.Empty;
 
         [StringLength(500)]
-        public string Excerpt { get; set; }
+        public string Excerpt { get; set; } = string.Empty;
 
         [Required]
         [Column(TypeName = "ntext")]
         public string Content { get; set; }
 
+        
         [StringLength(500)]
-        public string FeaturedImageUrl { get; set; }
+        public string FeaturedImageUrl { get; set; } = string.Empty;
 
         public PostStatus Status { get; set; }
 
@@ -39,16 +40,16 @@ namespace BlogCore.Core.Entities
         //public virtual User Author { get; set; }
         [ForeignKey("AuthorId")]
         [JsonIgnore]
-        public virtual ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Author { get; set; } = null!;
 
         [JsonIgnore]
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
 
         [JsonIgnore]
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         [JsonIgnore]
-        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
 
         public DateTime PublishedAt { get; set; }
         public DateTime CreatedAt { get; set; }

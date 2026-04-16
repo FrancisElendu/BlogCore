@@ -8,19 +8,17 @@ namespace BlogCore.Core.Entities
     {
         [Required]
         [StringLength(100)]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
         [Required]
         [StringLength(200)]
-        public string Email { get; set; }
-
-        public string DisplayName { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string DisplayName { get; set; } = string.Empty;
 
         [Required]
-        public string PasswordHash { get; set; }  // Add this - stores hashed password
-
+        public string PasswordHash { get; set; } = string.Empty;  // Add this - stores hashed password
         [JsonIgnore]
-        public virtual ICollection<BlogPost> BlogPosts { get; set; }
+        public virtual ICollection<BlogPost> BlogPosts { get; set; } = new HashSet<BlogPost>();
         public Guid Id { get; set; }
 
         // Optional: Add audit fields
@@ -28,7 +26,7 @@ namespace BlogCore.Core.Entities
         public DateTime? UpdatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
         public bool IsActive { get; set; }
-        public string RefreshToken { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
         public DateTime RefreshTokenExpiryDate { get; set; }
 
         public User()

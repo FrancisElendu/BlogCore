@@ -2,12 +2,12 @@
 {
     public class TokenResponseDto
     {
-        public string AccessToken { get; set; }
-        public string RefreshToken { get; set; }
+        public string AccessToken { get; set; } = string.Empty;
+        public string RefreshToken { get; set; } = string.Empty;
         public DateTime AccessTokenExpiry { get; set; }
         public DateTime RefreshTokenExpiry { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public List<string> Roles { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public List<string> Roles { get; set; } = new List<string>();
     }
 }

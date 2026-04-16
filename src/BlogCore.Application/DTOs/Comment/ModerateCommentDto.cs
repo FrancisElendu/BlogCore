@@ -4,6 +4,6 @@
     {
         public Guid CommentId { get; set; }
         public bool IsApproved { get; set; }
-        public string ModerationNotes { get; set; }
+        public string ModerationNotes { get; set; } = string.Empty;
     }
 }

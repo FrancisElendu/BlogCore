@@ -8,13 +8,13 @@ namespace BlogCore.Core.Entities
     {
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [StringLength(50)]
-        public string Slug { get; set; }
+        public string Slug { get; set; } = string.Empty;
 
         [JsonIgnore]
-        public virtual ICollection<BlogPost> BlogPosts { get; set; }
+        public virtual ICollection<BlogPost> BlogPosts { get; set; } = new HashSet<BlogPost>();
         public Guid Id { get; set; }
 
         // Add audit fields

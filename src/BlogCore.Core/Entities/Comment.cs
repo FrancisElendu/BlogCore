@@ -9,25 +9,25 @@ namespace BlogCore.Core.Entities
     {
         [Required]
         [StringLength(500)]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
-        public string AuthorName { get; set; }
-        public string AuthorEmail { get; set; }
+        public string AuthorName { get; set; } = string.Empty;
+        public string AuthorEmail { get; set; } = string.Empty;
 
         public Guid BlogPostId { get; set; }
 
         [ForeignKey("BlogPostId")]
         [JsonIgnore]
-        public virtual BlogPost BlogPost { get; set; }
+        public virtual BlogPost BlogPost { get; set; } = null;
 
         public Guid? ParentCommentId { get; set; }
 
         [ForeignKey("ParentCommentId")]
         [JsonIgnore]
-        public virtual Comment ParentComment { get; set; }
+        public virtual Comment? ParentComment { get; set; } 
         
         [JsonIgnore]
-        public virtual ICollection<Comment> Replies { get; set; }
+        public virtual ICollection<Comment> Replies { get; set; } = new HashSet<Comment>();
 
         public bool IsApproved { get; set; }
         public DateTime CreatedAt { get; set; }

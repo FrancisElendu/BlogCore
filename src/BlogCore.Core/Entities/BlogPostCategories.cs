@@ -8,9 +8,9 @@ namespace BlogCore.Core.Entities
         public Guid CategoryId { get; set; }
 
         [JsonIgnore]
-        public virtual BlogPost BlogPost { get; set; }
+        public virtual BlogPost? BlogPost { get; set; } = null;
 
         [JsonIgnore]
-        public virtual Category Category { get; set; }
+        public virtual Category? Category { get; set; } = null;
     }
 }

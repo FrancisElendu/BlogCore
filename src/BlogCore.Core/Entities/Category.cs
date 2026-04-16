@@ -9,25 +9,25 @@ namespace BlogCore.Core.Entities
     {
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [StringLength(500)]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [StringLength(200)]
-        public string Slug { get; set; }
+        public string Slug { get; set; } = string.Empty;
 
         public Guid? ParentCategoryId { get; set; }
 
         [ForeignKey("ParentCategoryId")]
         [JsonIgnore]
-        public virtual Category ParentCategory { get; set; }
+        public virtual Category? ParentCategory { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<Category> SubCategories { get; set; }
+        public virtual ICollection<Category> SubCategories { get; set; } = new HashSet<Category>();
 
         [JsonIgnore]
-        public virtual ICollection<BlogPost> BlogPosts { get; set; }
+        public virtual ICollection<BlogPost> BlogPosts { get; set; } = new HashSet<BlogPost>();
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

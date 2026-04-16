@@ -26,11 +26,11 @@ namespace BlogCore.Infrastructure.Services
             var jwtSection = _configuration.GetSection("JwtSettings");
             _jwtSettings = new JwtSettings
             {
-                Secret = jwtSection["Secret"],
-                Issuer = jwtSection["Issuer"],
-                Audience = jwtSection["Audience"],
-                AccessTokenExpiryMinutes = Convert.ToDouble(jwtSection["AccessTokenExpiryMinutes"]),
-                RefreshTokenExpiryDays = Convert.ToInt32(jwtSection["RefreshTokenExpiryDays"])
+                Secret = jwtSection["Secret"] ?? string.Empty,
+                Issuer = jwtSection["Issuer"] ?? string.Empty,
+                Audience = jwtSection["Audience"] ?? string.Empty,
+                AccessTokenExpiryMinutes = Convert.ToDouble(jwtSection["AccessTokenExpiryMinutes"] ?? "0"),
+                RefreshTokenExpiryDays = Convert.ToInt32(jwtSection["RefreshTokenExpiryDays"] ?? "0")
             };
         }
 
@@ -46,11 +46,11 @@ namespace BlogCore.Infrastructure.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("userId", user.Id.ToString()),
-                new Claim("displayName", user.DisplayName ?? user.UserName)
+                new Claim("displayName", user.DisplayName ?? user.UserName ?? string.Empty)
             };
 
             // Add role claims

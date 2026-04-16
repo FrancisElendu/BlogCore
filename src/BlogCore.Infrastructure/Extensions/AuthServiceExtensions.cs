@@ -18,6 +18,16 @@ namespace BlogCore.Infrastructure.Extensions
             var issuer = jwtSettings["Issuer"];
             var audience = jwtSettings["Audience"];
 
+            // Add null check
+            if (string.IsNullOrEmpty(secret))
+                throw new InvalidOperationException("JWT Secret is not configured");
+
+            if (string.IsNullOrEmpty(issuer))
+                throw new InvalidOperationException("JWT Issuer is not configured");
+
+            if (string.IsNullOrEmpty(audience))
+                throw new InvalidOperationException("JWT Audience is not configured");
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

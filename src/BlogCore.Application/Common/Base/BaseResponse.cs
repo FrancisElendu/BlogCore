@@ -3,8 +3,8 @@
     public class BaseResponse<T>
     {
         public bool Success { get; set; }
-        public string Message { get; set; }
-        public T Data { get; set; }
+        public string? Message { get; set; }
+        public T? Data { get; set; }
         public List<string> Errors { get; set; } = new();
 
         public BaseResponse()
@@ -18,7 +18,7 @@
             Message = message;
         }
 
-        public BaseResponse(T data, string message = null)
+        public BaseResponse(T data, string? message = null)
         {
             Success = true;
             Data = data;
@@ -29,6 +29,19 @@
         {
             Success = success;
             Message = message;
+        }
+
+        public static BaseResponse<T> SuccessResponse(T data, string? message = null)
+        {
+            return new BaseResponse<T>(data, message);
+        }
+
+        public static BaseResponse<T> FailureResponse(string message, List<string>? errors = null)
+        {
+            return new BaseResponse<T>(message, false)
+            {
+                Errors = errors ?? new List<string>()
+            };
         }
     }
 }

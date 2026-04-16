@@ -88,8 +88,8 @@ namespace BlogCore.Infrastructure.Services
                     RefreshToken = refreshToken,
                     AccessTokenExpiry = DateTime.UtcNow.AddMinutes(_jwtTokenService.GetAccessTokenExpiryMinutes()),
                     RefreshTokenExpiry = refreshTokenExpiry,
-                    Username = user.UserName,
-                    Email = user.Email,
+                    Username = user.UserName ?? string.Empty,
+                    Email = user.Email ?? string.Empty,
                     Roles = roles.ToList()
                 };
             }
@@ -263,8 +263,8 @@ namespace BlogCore.Infrastructure.Services
                     RefreshToken = newRefreshToken,
                     AccessTokenExpiry = DateTime.UtcNow.AddMinutes(_jwtTokenService.GetAccessTokenExpiryMinutes()),
                     RefreshTokenExpiry = newRefreshTokenExpiry,
-                    Username = user.UserName,
-                    Email = user.Email,
+                    Username = user.UserName ?? string.Empty,
+                    Email = user.Email ?? string.Empty,
                     Roles = roles.ToList()
                 };
             }
@@ -302,11 +302,11 @@ namespace BlogCore.Infrastructure.Services
             }
 
             // Validate requested roles
-            var invalidRoles = requestedRoles.Where(r => !allowedRoles.Contains(r)).ToList();
+            var invalidRoles = requestedRoles.Where(r => !allowedRoles?.Contains(r) ?? true).ToList();
             if (invalidRoles.Any())
             {
                 throw new InvalidOperationException($"Invalid role(s) requested: {string.Join(", ", invalidRoles)}. " +
-                    $"Allowed roles are: {string.Join(", ", allowedRoles)}");
+                    $"Allowed roles are: {string.Join(", ", allowedRoles ?? new List<string>())}");
             }
 
             // Check if the requesting user (if any) has permission to assign certain roles
@@ -334,7 +334,7 @@ namespace BlogCore.Infrastructure.Services
             // Assign all valid roles
             foreach (var role in requestedRoles)
             {
-                if (allowedRoles.Contains(role))
+                if (allowedRoles?.Contains(role) ?? false)
                 {
                     await _userManager.AddToRoleAsync(user, role);
                 }
@@ -351,8 +351,8 @@ namespace BlogCore.Infrastructure.Services
 
             // Base claims for all users
             claims.Add(new Claim("UserId", user.Id.ToString()));
-            claims.Add(new Claim("Email", user.Email));
-            claims.Add(new Claim("DisplayName", user.DisplayName ?? user.UserName));
+            claims.Add(new Claim("Email", user.Email ?? string.Empty));
+            claims.Add(new Claim("DisplayName", user.DisplayName ?? user.UserName ?? string.Empty));
             claims.Add(new Claim("AccountCreated", user.CreatedAt.ToString("o")));
 
             // Role-based claims
