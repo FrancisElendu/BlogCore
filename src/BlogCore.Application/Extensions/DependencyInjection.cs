@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using BlogCore.Application.Common.Behaviors;
+using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -15,27 +15,9 @@ namespace BlogCore.Application.Extensions
             return services
                 .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly))
                 .AddValidatorsFromAssembly(assembly)
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         }
     }
 
-
-    //public static class DependencyInjection
-    //{
-    //    public static void AddApplicatione(this IServiceCollection services, IConfiguration config)
-    //    {
-    //        // Add MediatR with handlers from Application layer
-    //        services.AddMediatR(cfg =>
-    //        {
-    //            cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(BlogCore.Application.DTOs.Auth.UserManagementResponseDto)));
-    //        });
-
-    //        // Add FluentValidation
-    //        services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(BlogCore.Application.Features.Admin.Commands.AddClaimToUser.AddClaimToUserCommandValidator)));
-
-    //        // Add Pipeline Behaviors
-    //        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-    //        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-    //    }
-    //}
 }

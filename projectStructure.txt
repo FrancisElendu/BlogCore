@@ -121,8 +121,19 @@ Moderate comments	    ❌	     ❌	     ✅	     ✅
 Manage users	        ❌	     ❌	     ❌	     ✅
 
 
+Admin API Endpoints Summary
+Method	            Endpoint	                           Description
+POST	            /api/admin/users/{userId}/claims	    Add a claim to a user
+DELETE	            /api/admin/users/{userId}/claims	    Remove a claim from a user
+GET	                /api/admin/users/{userId}/claims	    Get all claims for a user
+POST	            /api/admin/users/{userId}/roles	        Add a role to a user
+DELETE	            /api/admin/users/{userId}/roles	        Remove a role from a user
+GET	                /api/admin/users/{userId}/roles	        Get all roles for a user
+POST	            /api/admin/users/{userId}/sync-claims	Sync claims based on user's roles
 
-
+        
+        
+        
         #Old Template
 
         BlogCore.sln

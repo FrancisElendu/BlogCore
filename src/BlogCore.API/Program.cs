@@ -1,4 +1,6 @@
 using BlogCore.API;
+using BlogCore.API.Middleware;
+using BlogCore.Application.Extensions;
 using BlogCore.Infrastructure.Extensions;
 
 
@@ -22,7 +24,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Enter 'Bearer' followed by your token"
+        Description = "Enter 'Bearer ' followed by your token"
     });
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
@@ -41,6 +43,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 // Add JWT Authentication and Authorization Policies
 builder.Services.AddJwtAuthenticationAndPolicies(builder.Configuration);
@@ -56,6 +59,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// use Global exception handler
+app.UseGlobalExceptionHandler();
 
 app.UseAuthorization();
 

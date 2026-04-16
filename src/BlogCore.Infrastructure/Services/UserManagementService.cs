@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
+
 namespace BlogCore.Infrastructure.Services
 {
     public class UserManagementService : IUserManagementService
@@ -294,6 +295,11 @@ namespace BlogCore.Infrastructure.Services
                 // Regular users DO NOT have "posts.create" permission
                 // That's reserved for Authors and Admins
             };
+        }
+
+        Task<IList<Claim>> IUserManagementService.GetUserClaimsAsync(Guid userId)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
