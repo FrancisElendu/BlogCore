@@ -6,11 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace BlogCore.Infrastructure.Services
 {
@@ -370,7 +366,7 @@ namespace BlogCore.Infrastructure.Services
                 claims.Add(new Claim("Permission", "comments.moderate"));
                 claims.Add(new Claim("Permission", "posts.view.own")); // Also included
                 claims.Add(new Claim("Permission", "posts.view.published")); // Also included
-        
+
                 // Comment moderation
                 claims.Add(new Claim("Permission", "comments.moderate"));
                 claims.Add(new Claim("Permission", "comments.view"));

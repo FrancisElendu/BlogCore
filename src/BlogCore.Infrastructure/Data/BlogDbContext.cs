@@ -108,7 +108,5 @@ namespace BlogCore.Infrastructure.Data
                 entity.HasKey(e => e.Id);
             });
         }
-
-        //llll
     }
 }
