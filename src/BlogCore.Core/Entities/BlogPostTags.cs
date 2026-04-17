@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace BlogCore.Core.Entities
 {
@@ -13,9 +8,9 @@ namespace BlogCore.Core.Entities
         public Guid TagId { get; set; }
 
         [JsonIgnore]
-        public virtual BlogPost BlogPost { get; set; } = null;
+        public virtual BlogPost? BlogPost { get; set; } = null;
 
         [JsonIgnore]
-        public virtual Tag Tag { get; set; } = null;
+        public virtual Tag? Tag { get; set; } = null;
     }
 }

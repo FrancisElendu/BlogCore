@@ -18,7 +18,7 @@ namespace BlogCore.Core.Entities
 
         [ForeignKey("BlogPostId")]
         [JsonIgnore]
-        public virtual BlogPost BlogPost { get; set; } = null;
+        public virtual BlogPost? BlogPost { get; set; } = null;
 
         public Guid? ParentCommentId { get; set; }
 

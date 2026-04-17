@@ -7,6 +7,6 @@ namespace BlogCore.Application.Features.Admin.Commands
     public class AddRoleToUserCommand : IRequest<BaseResponse<UserManagementResponseDto>>
     {
         public Guid UserId { get; set; }
-        public string Role { get; set; }
+        public string Role { get; set; } = string.Empty;
     }
 }

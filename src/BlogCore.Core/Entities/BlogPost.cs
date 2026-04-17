@@ -8,7 +8,7 @@ namespace BlogCore.Core.Entities
 {
     public class BlogPost : IEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         [StringLength(200)]
         public string Title { get; set; } = string.Empty;
@@ -22,22 +22,19 @@ namespace BlogCore.Core.Entities
 
         [Required]
         [Column(TypeName = "ntext")]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
-        
+
         [StringLength(500)]
         public string FeaturedImageUrl { get; set; } = string.Empty;
 
-        public PostStatus Status { get; set; }
+        public PostStatus Status { get; set; } = PostStatus.Draft;
 
         public int ViewCount { get; set; }
         public int LikeCount { get; set; }
 
         public Guid AuthorId { get; set; }
 
-        //[ForeignKey("AuthorId")]
-        //[JsonIgnore]
-        //public virtual User Author { get; set; }
         [ForeignKey("AuthorId")]
         [JsonIgnore]
         public virtual ApplicationUser Author { get; set; } = null!;
@@ -52,7 +49,7 @@ namespace BlogCore.Core.Entities
         public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
 
         public DateTime PublishedAt { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
         
 

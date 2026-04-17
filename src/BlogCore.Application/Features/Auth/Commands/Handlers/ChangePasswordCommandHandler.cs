@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BlogCore.Application.Features.Auth.Commands.Handlers
 {
-    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, BaseResponse<object>>
+    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, BaseResponse<bool>>
     {
         private readonly IAuthService _authService;
         private readonly ILogger<ChangePasswordCommandHandler> _logger;
@@ -18,7 +18,7 @@ namespace BlogCore.Application.Features.Auth.Commands.Handlers
             _authService = authService;
             _logger = logger;
         }
-        public async Task<BaseResponse<object>> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<bool>> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,23 +32,23 @@ namespace BlogCore.Application.Features.Auth.Commands.Handlers
 
                 if (!result)
                 {
-                    return BaseResponse<object>.FailureResponse("Failed to change password");
+                    return BaseResponse<bool>.FailureResponse("Failed to change password");
                 }
 
-                return BaseResponse<object>.SuccessResponse(null, "Password changed successfully");
+                return BaseResponse<bool>.SuccessResponse(true, "Password changed successfully");
             }
             catch (KeyNotFoundException ex)
             {
-                return BaseResponse<object>.FailureResponse(ex.Message);
+                return BaseResponse<bool>.FailureResponse(ex.Message);
             }
             catch (InvalidOperationException ex)
             {
-                return BaseResponse<object>.FailureResponse(ex.Message);
+                return BaseResponse<bool>.FailureResponse(ex.Message);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Password change error for user {UserId}", request.UserId);
-                return BaseResponse<object>.FailureResponse("An error occurred while changing password");
+                return BaseResponse<bool>.FailureResponse("An error occurred while changing password");
             }
         }
     }
