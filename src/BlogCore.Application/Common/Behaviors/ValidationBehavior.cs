@@ -4,7 +4,7 @@ using MediatR;
 namespace BlogCore.Application.Common.Behaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>, IValidateMe
+        where TRequest : IRequest<TResponse>/*, IValidateMe*/
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 

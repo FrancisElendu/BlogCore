@@ -173,7 +173,7 @@ namespace BlogCore.API.Controllers
         /// Gets the current authenticated user's information
         /// </summary>
         /// <returns>User information</returns>
-        [HttpGet("me")]
+        [HttpGet("current-user")]
         [Authorize]
         [ProducesResponseType(typeof(UserInfoResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
