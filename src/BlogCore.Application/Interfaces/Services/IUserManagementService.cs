@@ -1,17 +1,10 @@
-﻿using System.Security.Claims;
+﻿using BlogCore.Application.DTOs.Auth;
+using System.Security.Claims;
 
 namespace BlogCore.Application.Interfaces.Services
 {
     public interface IUserManagementService
     {
-        //Task<bool> AddClaimToUserAsync(Guid userId, string claimType, string claimValue);
-        //Task<bool> RemoveClaimFromUserAsync(Guid userId, string claimType, string claimValue);
-        //Task<IList<Claim>> GetUserClaimsAsync(Guid userId);
-        //Task<bool> AddRoleToUserAsync(Guid userId, string role);
-        //Task<bool> RemoveRoleFromUserAsync(Guid userId, string role);
-        //Task<IList<string>> GetUserRolesAsync(Guid userId);
-        //Task<bool> UpdateUserClaimsBasedOnRolesAsync(Guid userId);
-
         // Claim Management
         Task<bool> AddClaimToUserAsync(Guid userId, string claimType, string claimValue);
         Task<bool> RemoveClaimFromUserAsync(Guid userId, string claimType, string claimValue);
@@ -27,5 +20,11 @@ namespace BlogCore.Application.Interfaces.Services
 
         // Add this method if you need to get username
         Task<string> GetUsernameAsync(Guid userId);
+
+        // Batch operations - NEW
+        Task<BatchOperationResult> AddMultipleRolesToUserAsync(Guid userId, List<string> roles);
+        Task<BatchOperationResult> RemoveMultipleRolesFromUserAsync(Guid userId, List<string> roles);
+        Task<BatchOperationResult> AddMultipleClaimsToUserAsync(Guid userId, List<ClaimDto> claims);
+        Task<BatchOperationResult> RemoveMultipleClaimsFromUserAsync(Guid userId, List<ClaimDto> claims);
     }
 }

@@ -4,9 +4,9 @@ using MediatR;
 
 namespace BlogCore.Application.Features.Admin.Commands
 {
-    public class RemoveRoleFromUserCommand : IRequest<BaseResponse<UserManagementResponseDto>>
+    public class AddMultipleRolesToUserCommand : IRequest<BaseResponse<BatchOperationResult>>
     {
         public Guid UserId { get; set; }
-        public string Role { get; set; } = string.Empty;
+        public List<string> Roles { get; set; } = new();
     }
 }

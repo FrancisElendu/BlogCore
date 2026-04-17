@@ -65,4 +65,42 @@ namespace BlogCore.Application.DTOs.Auth
         public List<string> Errors { get; set; } = new();
     }
     #endregion
+
+    public class ClaimDto
+    {
+        public string ClaimType { get; set; } = string.Empty;
+        public string ClaimValue { get; set; } = string.Empty;
+    }
+
+    public class BatchOperationResult
+    {
+        public bool Success { get; set; }
+        public List<string> SuccessfulItems { get; set; } = new();
+        public List<string> FailedItems { get; set; } = new();
+        public string Message { get; set; } = string.Empty;
+    }
+
+    #region Batch Request DTOs
+
+    public class AddMultipleRolesRequest
+    {
+        public List<string> Roles { get; set; } = new();
+    }
+
+    public class RemoveMultipleRolesRequest
+    {
+        public List<string> Roles { get; set; } = new();
+    }
+
+    public class AddMultipleClaimsRequest
+    {
+        public List<ClaimDto> Claims { get; set; } = new();
+    }
+
+    public class RemoveMultipleClaimsRequest
+    {
+        public List<ClaimDto> Claims { get; set; } = new();
+    }
+
+    #endregion
 }

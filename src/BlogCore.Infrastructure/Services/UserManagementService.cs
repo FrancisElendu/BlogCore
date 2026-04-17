@@ -1,4 +1,5 @@
-﻿using BlogCore.Application.Interfaces.Services;
+﻿using BlogCore.Application.DTOs.Auth;
+using BlogCore.Application.Interfaces.Services;
 using BlogCore.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -219,6 +220,268 @@ namespace BlogCore.Infrastructure.Services
 
             return user.UserName ?? string.Empty; // Add null check with fallback
         }
+
+
+
+        #region Batch Operations
+
+        /// <summary>
+        /// Adds multiple roles to a user in a single batch operation
+        /// </summary>
+        public async Task<BatchOperationResult> AddMultipleRolesToUserAsync(Guid userId, List<string> roles)
+        {
+            var result = new BatchOperationResult();
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                {
+                    result.Success = false;
+                    result.Message = $"User with ID {userId} not found";
+                    return result;
+                }
+
+                var validRoles = await GetValidRolesAsync();
+
+                foreach (var role in roles.Distinct())
+                {
+                    if (!validRoles.Contains(role))
+                    {
+                        result.FailedItems.Add($"{role} (invalid role)");
+                        continue;
+                    }
+
+                    if (await _userManager.IsInRoleAsync(user, role))
+                    {
+                        result.FailedItems.Add($"{role} (already assigned)");
+                        continue;
+                    }
+
+                    var addResult = await _userManager.AddToRoleAsync(user, role);
+                    if (addResult.Succeeded)
+                    {
+                        result.SuccessfulItems.Add(role);
+                        _logger.LogInformation("Added role {Role} to user {Username}", role, user.UserName);
+                    }
+                    else
+                    {
+                        result.FailedItems.Add($"{role} ({string.Join(", ", addResult.Errors.Select(e => e.Description))})");
+                    }
+                }
+
+                // Update claims if any roles were successfully added
+                if (result.SuccessfulItems.Any())
+                {
+                    await UpdateUserClaimsBasedOnRolesAsync(userId);
+                }
+
+                result.Success = result.SuccessfulItems.Any();
+                result.Message = result.Success
+                    ? $"Successfully added {result.SuccessfulItems.Count} role(s)"
+                    : "Failed to add any roles";
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add multiple roles to user {UserId}", userId);
+                result.Success = false;
+                result.Message = $"Error: {ex.Message}";
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Removes multiple roles from a user in a single batch operation
+        /// </summary>
+        public async Task<BatchOperationResult> RemoveMultipleRolesFromUserAsync(Guid userId, List<string> roles)
+        {
+            var result = new BatchOperationResult();
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                {
+                    result.Success = false;
+                    result.Message = $"User with ID {userId} not found";
+                    return result;
+                }
+
+                var currentRoles = await _userManager.GetRolesAsync(user);
+
+                foreach (var role in roles.Distinct())
+                {
+                    if (!currentRoles.Contains(role))
+                    {
+                        result.FailedItems.Add($"{role} (not assigned)");
+                        continue;
+                    }
+
+                    var removeResult = await _userManager.RemoveFromRoleAsync(user, role);
+                    if (removeResult.Succeeded)
+                    {
+                        result.SuccessfulItems.Add(role);
+                        _logger.LogInformation("Removed role {Role} from user {Username}", role, user.UserName);
+                    }
+                    else
+                    {
+                        result.FailedItems.Add($"{role} ({string.Join(", ", removeResult.Errors.Select(e => e.Description))})");
+                    }
+                }
+
+                // Update claims if any roles were successfully removed
+                if (result.SuccessfulItems.Any())
+                {
+                    await UpdateUserClaimsBasedOnRolesAsync(userId);
+                }
+
+                result.Success = result.SuccessfulItems.Any();
+                result.Message = result.Success
+                    ? $"Successfully removed {result.SuccessfulItems.Count} role(s)"
+                    : "Failed to remove any roles";
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to remove multiple roles from user {UserId}", userId);
+                result.Success = false;
+                result.Message = $"Error: {ex.Message}";
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Adds multiple claims to a user in a single batch operation
+        /// </summary>
+        public async Task<BatchOperationResult> AddMultipleClaimsToUserAsync(Guid userId, List<ClaimDto> claims)
+        {
+            var result = new BatchOperationResult();
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                {
+                    result.Success = false;
+                    result.Message = $"User with ID {userId} not found";
+                    return result;
+                }
+
+                var existingClaims = await _userManager.GetClaimsAsync(user);
+
+                foreach (var claimDto in claims.DistinctBy(c => new { c.ClaimType, c.ClaimValue }))
+                {
+                    if (existingClaims.Any(c => c.Type == claimDto.ClaimType && c.Value == claimDto.ClaimValue))
+                    {
+                        result.FailedItems.Add($"{claimDto.ClaimType}:{claimDto.ClaimValue} (already exists)");
+                        continue;
+                    }
+
+                    var claim = new Claim(claimDto.ClaimType, claimDto.ClaimValue);
+                    var addResult = await _userManager.AddClaimAsync(user, claim);
+
+                    if (addResult.Succeeded)
+                    {
+                        result.SuccessfulItems.Add($"{claimDto.ClaimType}:{claimDto.ClaimValue}");
+                        _logger.LogInformation("Added claim {ClaimType}:{ClaimValue} to user {Username}",
+                            claimDto.ClaimType, claimDto.ClaimValue, user.UserName);
+                    }
+                    else
+                    {
+                        result.FailedItems.Add($"{claimDto.ClaimType}:{claimDto.ClaimValue} ({string.Join(", ", addResult.Errors.Select(e => e.Description))})");
+                    }
+                }
+
+                result.Success = result.SuccessfulItems.Any();
+                result.Message = result.Success
+                    ? $"Successfully added {result.SuccessfulItems.Count} claim(s)"
+                    : "Failed to add any claims";
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add multiple claims to user {UserId}", userId);
+                result.Success = false;
+                result.Message = $"Error: {ex.Message}";
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Removes multiple claims from a user in a single batch operation
+        /// </summary>
+        public async Task<BatchOperationResult> RemoveMultipleClaimsFromUserAsync(Guid userId, List<ClaimDto> claims)
+        {
+            var result = new BatchOperationResult();
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                {
+                    result.Success = false;
+                    result.Message = $"User with ID {userId} not found";
+                    return result;
+                }
+
+                var existingClaims = await _userManager.GetClaimsAsync(user);
+
+                foreach (var claimDto in claims.DistinctBy(c => new { c.ClaimType, c.ClaimValue }))
+                {
+                    var existingClaim = existingClaims.FirstOrDefault(c =>
+                        c.Type == claimDto.ClaimType && c.Value == claimDto.ClaimValue);
+
+                    if (existingClaim == null)
+                    {
+                        result.FailedItems.Add($"{claimDto.ClaimType}:{claimDto.ClaimValue} (not found)");
+                        continue;
+                    }
+
+                    var removeResult = await _userManager.RemoveClaimAsync(user, existingClaim);
+
+                    if (removeResult.Succeeded)
+                    {
+                        result.SuccessfulItems.Add($"{claimDto.ClaimType}:{claimDto.ClaimValue}");
+                        _logger.LogInformation("Removed claim {ClaimType}:{ClaimValue} from user {Username}",
+                            claimDto.ClaimType, claimDto.ClaimValue, user.UserName);
+                    }
+                    else
+                    {
+                        result.FailedItems.Add($"{claimDto.ClaimType}:{claimDto.ClaimValue} ({string.Join(", ", removeResult.Errors.Select(e => e.Description))})");
+                    }
+                }
+
+                result.Success = result.SuccessfulItems.Any();
+                result.Message = result.Success
+                    ? $"Successfully removed {result.SuccessfulItems.Count} claim(s)"
+                    : "Failed to remove any claims";
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to remove multiple claims from user {UserId}", userId);
+                result.Success = false;
+                result.Message = $"Error: {ex.Message}";
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets all valid roles from configuration or defaults
+        /// </summary>
+        private async Task<List<string>> GetValidRolesAsync()
+        {
+            // You can inject IConfiguration here or get from app settings
+            // For now, return default roles
+            return new List<string> { "Admin", "Author", "Editor", "User" };
+        }
+
+        #endregion
 
 
 

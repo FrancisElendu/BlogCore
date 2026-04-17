@@ -4,7 +4,6 @@ using BlogCore.Application.Features.Admin.Commands;
 using BlogCore.Application.Features.Admin.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogCore.API.Controllers
@@ -184,5 +183,118 @@ namespace BlogCore.API.Controllers
 
             return Ok(result);
         }
+
+
+        #region Batch Operations
+
+        /// <summary>
+        /// Adds multiple roles to a user in a single batch operation
+        /// </summary>
+        [HttpPost("users/{userId}/roles/batch")]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddMultipleRolesToUser(Guid userId, [FromBody] AddMultipleRolesRequest request)
+        {
+            var command = new AddMultipleRolesToUserCommand
+            {
+                UserId = userId,
+                Roles = request.Roles
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+            {
+                if (result.Message?.Contains("not found") == true)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Removes multiple roles from a user in a single batch operation
+        /// </summary>
+        [HttpDelete("users/{userId}/roles/batch")]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RemoveMultipleRolesFromUser(Guid userId, [FromBody] RemoveMultipleRolesRequest request)
+        {
+            var command = new RemoveMultipleRolesFromUserCommand
+            {
+                UserId = userId,
+                Roles = request.Roles
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+            {
+                if (result.Message?.Contains("not found") == true)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Adds multiple claims to a user in a single batch operation
+        /// </summary>
+        [HttpPost("users/{userId}/claims/batch")]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddMultipleClaimsToUser(Guid userId, [FromBody] AddMultipleClaimsRequest request)
+        {
+            var command = new AddMultipleClaimsToUserCommand
+            {
+                UserId = userId,
+                Claims = request.Claims
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+            {
+                if (result.Message?.Contains("not found") == true)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Removes multiple claims from a user in a single batch operation
+        /// </summary>
+        [HttpDelete("users/{userId}/claims/batch")]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse<BatchOperationResult>), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RemoveMultipleClaimsFromUser(Guid userId, [FromBody] RemoveMultipleClaimsRequest request)
+        {
+            var command = new RemoveMultipleClaimsFromUserCommand
+            {
+                UserId = userId,
+                Claims = request.Claims
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+            {
+                if (result.Message?.Contains("not found") == true)
+                    return NotFound(result);
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        #endregion
     }
 }
