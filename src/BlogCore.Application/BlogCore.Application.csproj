@@ -19,6 +19,15 @@
 
   <ItemGroup>
     <Folder Include="Features\Auth\Queries\Handlers\" />
+    <Folder Include="Features\Category\Commands\" />
+    <Folder Include="Features\Category\Validations\" />
+    <Folder Include="Features\Category\Queries\" />
+    <Folder Include="Features\Comment\Commands\" />
+    <Folder Include="Features\Comment\Validations\" />
+    <Folder Include="Features\Comment\Queries\" />
+    <Folder Include="Features\Tag\Commands\" />
+    <Folder Include="Features\Tag\Validations\" />
+    <Folder Include="Features\Tag\Queries\" />
   </ItemGroup>
 
 </Project>

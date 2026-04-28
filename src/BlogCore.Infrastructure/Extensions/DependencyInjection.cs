@@ -2,6 +2,7 @@
 using BlogCore.Application.Interfaces.Services;
 using BlogCore.Core.Entities;
 using BlogCore.Infrastructure.Data;
+using BlogCore.Infrastructure.Repositories;
 using BlogCore.Infrastructure.Seeddata.Seeders;
 using BlogCore.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ namespace BlogCore.Infrastructure.Extensions
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
+            // Add DbContext
             services.AddDbContext<BlogDbContext>
             (options =>
                 options.UseSqlServer
@@ -58,6 +60,15 @@ namespace BlogCore.Infrastructure.Extensions
             // Register the generic repository from the NuGet package
             // It will work with AppDbContext (which will now be BlogDbContext)
             services.AddScoped(typeof(IRepository<>), typeof(SqlRepository<>));
+
+            // Register generic specification repository
+            services.AddScoped(typeof(ISpecificationRepository<>), typeof(SpecificationSqlRepository<>));
+
+            // Register specific repositories
+            services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
 
 
         }

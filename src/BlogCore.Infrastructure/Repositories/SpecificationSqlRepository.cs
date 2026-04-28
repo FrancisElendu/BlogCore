@@ -1,8 +1,8 @@
 ﻿using BlogCore.Application.Interfaces;
+using BlogCore.Infrastructure.Data;
 using MayFlo.Specification.Builder;
 using Microsoft.EntityFrameworkCore;
 using MSSQLFlexCrud;
-using MSSQLFlexCrud.DatatContext;
 using MSSQLFlexCrud.SqlDb;
 
 namespace BlogCore.Infrastructure.Repositories
@@ -13,10 +13,10 @@ namespace BlogCore.Infrastructure.Repositories
     public class SpecificationSqlRepository<T> : SqlRepository<T>, ISpecificationRepository<T>
         where T : class, IEntity
     {
-        private readonly AppDbContext _context;
+        private readonly BlogDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public SpecificationSqlRepository(AppDbContext context) : base(context)
+        public SpecificationSqlRepository(BlogDbContext context) : base(context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -44,7 +44,7 @@ namespace BlogCore.Infrastructure.Repositories
         }
 
         // Override base methods to support specifications
-        public new async Task<IEnumerable<T>> GetPagedAsync(int page, int pageSize, ISpecification<T> specification = null)
+        public new async Task<IEnumerable<T>> GetPagedAsync(int page, int pageSize, ISpecification<T> specification = null, CancellationToken cancellationToken = default)
         {
             var query = _dbSet.AsNoTracking();
 
@@ -81,9 +81,51 @@ namespace BlogCore.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+
+
+
+        // CRUD Operations
+        public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+        }
+
+        public virtual async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            await _dbSet.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return entity;
+        }
+
+        public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            _dbSet.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public virtual async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var entity = await GetByIdAsync(id, cancellationToken);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_dbSet, spec);
         }
+
+        Task ISpecificationRepository<T>.CreateAsync(T entity, CancellationToken cancellationToken)
+        {
+            return CreateAsync(entity, cancellationToken);
+        }
+
+        //Task ISpecificationRepository<T>.CreateAsync(T entity, CancellationToken cancellationToken)
+        //{
+        //    return CreateAsync(entity, cancellationToken);
+        //}
     }
 }
