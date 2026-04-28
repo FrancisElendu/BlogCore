@@ -50,18 +50,58 @@ namespace BlogCore.Infrastructure.Repositories
             return await FindAsync(spec, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<BlogPost>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, string sortBy, bool descending, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<BlogPost>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, string sortBy="createdAt", bool descending=true, CancellationToken cancellationToken = default)
         {
-            var spec = new SpecificationBuilder<BlogPost>()
-        .Where(p => p.AuthorId == authorId)
-        .OrderByDescending(p => p.CreatedAt)
-        .Page(page, pageSize)
-        .Include(p => p.Categories)
-        .Include(p => p.Tags)
-        .Include(p => p.Author) // Include author details if needed
-        .Build();
+            var builder = new SpecificationBuilder<BlogPost>()
+        .Where(p => p.AuthorId == authorId);
+
+            // Apply dynamic sorting
+            switch (sortBy.ToLower())
+            {
+                case "title":
+                    if (descending)
+                        builder.OrderByDescending(p => p.Title);
+                    else
+                        builder.OrderBy(p => p.Title);
+                    break;
+                case "viewcount":
+                    if (descending)
+                        builder.OrderByDescending(p => p.ViewCount);
+                    else
+                        builder.OrderBy(p => p.ViewCount);
+                    break;
+                case "publishedat":
+                    if (descending)
+                        builder.OrderByDescending(p => p.PublishedAt);
+                    else
+                        builder.OrderBy(p => p.PublishedAt);
+                    break;
+                default: // createdAt
+                    if (descending)
+                        builder.OrderByDescending(p => p.CreatedAt);
+                    else
+                        builder.OrderBy(p => p.CreatedAt);
+                    break;
+            }
+
+            var spec = builder
+                .Page(page, pageSize)
+                .Include(p => p.Categories)
+                .Include(p => p.Tags)
+                .Include(p => p.Author)
+                .Build();
 
             return await FindAsync(spec, cancellationToken);
+            ////var spec = new SpecificationBuilder<BlogPost>()
+            ////.Where(p => p.AuthorId == authorId)
+            ////.OrderByDescending(p => p.CreatedAt)
+            ////.Page(page, pageSize)
+            ////.Include(p => p.Categories)
+            ////.Include(p => p.Tags)
+            ////.Include(p => p.Author) // Include author details if needed
+            ////.Build();
+
+            ////return await FindAsync(spec, cancellationToken);
         }
 
         public async Task<(IReadOnlyList<BlogPost> Posts, int TotalCount)> GetPostsByAuthorWithCountAsync(Guid authorId, int page, int pageSize, CancellationToken cancellationToken = default)
