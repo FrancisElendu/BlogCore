@@ -28,6 +28,8 @@ namespace BlogCore.Core.Entities
         
         [JsonIgnore]
         public virtual ICollection<Comment> Replies { get; set; } = new HashSet<Comment>();
+        //[JsonIgnore]
+        //public virtual ICollection<BlogPost> BlogPosts { get; set; } = new HashSet<BlogPost>();
 
         public bool IsApproved { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -36,6 +38,7 @@ namespace BlogCore.Core.Entities
         public Comment()
         {
             Replies = new HashSet<Comment>();
+            //BlogPosts = new HashSet<BlogPost>();
             CreatedAt = DateTime.UtcNow;
             IsApproved = false;
             Id = Guid.NewGuid();
