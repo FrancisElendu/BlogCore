@@ -1,17 +1,10 @@
 ﻿using BlogCore.Core.Entities;
-using MayFlo.Specification.Builder;
 using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Interfaces
 {
-    public interface ITagRepository : IRepository<Tag>
+    public interface ITagRepository : ISpecificationRepository<Tag>, IRepository<Tag>
     {
-        // Specification pattern methods
-        Task<IReadOnlyList<Tag>> FindAsync(ISpecification<Tag> specification, CancellationToken cancellationToken = default);
-        Task<Tag?> FirstOrDefaultAsync(ISpecification<Tag> specification, CancellationToken cancellationToken = default);
-        Task<int> CountAsync(ISpecification<Tag> specification, CancellationToken cancellationToken = default);
-        Task<bool> AnyAsync(ISpecification<Tag> specification, CancellationToken cancellationToken = default);
-
         // Tag-specific methods
         Task<Tag?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
         Task<Tag?> GetByNameAsync(string name, CancellationToken cancellationToken = default);

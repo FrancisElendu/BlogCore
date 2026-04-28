@@ -1,4 +1,5 @@
 ﻿using BlogCore.Application.Common.Base;
+using BlogCore.Application.Common.Exceptions;
 using BlogCore.Application.DTOs.Auth;
 using BlogCore.Application.Interfaces.Services;
 using MediatR;
@@ -21,54 +22,34 @@ namespace BlogCore.Application.Features.Admin.Commands.Handlers
 
         public async Task<BaseResponse<UserManagementResponseDto>> Handle(AddRoleToUserCommand request, CancellationToken cancellationToken)
         {
-            try
+            _logger.LogInformation("Adding role '{Role}' to user {UserId}", request.Role, request.UserId);
+
+            // First check if role exists (you may want to add this to UserManagementService)
+            var roles = await _userManagementService.GetUserRolesAsync(request.UserId);
+
+            if (roles.Contains(request.Role))
             {
-                // First check if role exists (you may want to add this to UserManagementService)
-                var roles = await _userManagementService.GetUserRolesAsync(request.UserId);
-                if (roles.Contains(request.Role))
-                {
-                    return new BaseResponse<UserManagementResponseDto>
-                    {
-                        Success = false,
-                        Message = $"User already has role '{request.Role}'"
-                    };
-                }
+                _logger.LogWarning("User {UserId} already has role '{Role}'", request.UserId, request.Role);
+                throw new BusinessRuleException($"User already has role '{request.Role}'");
+            }
 
-                var result = await _userManagementService.AddRoleToUserAsync(request.UserId, request.Role);
+            var result = await _userManagementService.AddRoleToUserAsync(request.UserId, request.Role);
 
-                if (!result)
-                {
-                    return new BaseResponse<UserManagementResponseDto>
-                    {
-                        Success = false,
-                        Message = $"Failed to add role '{request.Role}' to user"
-                    };
-                }
+            if (!result)
+            {
+                _logger.LogWarning("Failed to add role '{Role}' to user {UserId}", request.Role, request.UserId);
+                throw new BusinessRuleException($"Failed to add role '{request.Role}' to user");
+            }
 
-                return new BaseResponse<UserManagementResponseDto>
+            _logger.LogInformation("Successfully added role '{Role}' to user {UserId}", request.Role, request.UserId);
+
+            return BaseResponse<UserManagementResponseDto>.SuccessResponse(
+                new UserManagementResponseDto
                 {
                     Success = true,
-                    Message = "Role added successfully",
-                    Data = new UserManagementResponseDto
-                    {
-                        Success = true,
-                        Message = "Role added successfully"
-                    }
-                };
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return new BaseResponse<UserManagementResponseDto>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error adding role to user {UserId}", request.UserId);
-                throw;
-            }
+                    Message = "Role added successfully"
+                },
+                "Role added successfully");
         }
     }
 }

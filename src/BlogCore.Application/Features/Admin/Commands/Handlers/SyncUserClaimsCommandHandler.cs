@@ -1,4 +1,5 @@
 ﻿using BlogCore.Application.Common.Base;
+using BlogCore.Application.Common.Exceptions;
 using BlogCore.Application.DTOs.Auth;
 using BlogCore.Application.Interfaces.Services;
 using MediatR;
@@ -20,43 +21,25 @@ namespace BlogCore.Application.Features.Admin.Commands.Handlers
         }
         public async Task<BaseResponse<UserManagementResponseDto>> Handle(SyncUserClaimsCommand request, CancellationToken cancellationToken)
         {
-            try
+            _logger.LogInformation("Starting claim sync for user {UserId}", request.UserId);
+
+            var result = await _userManagementService.UpdateUserClaimsBasedOnRolesAsync(request.UserId);
+
+            if (!result)
             {
-                var result = await _userManagementService.UpdateUserClaimsBasedOnRolesAsync(request.UserId);
+                _logger.LogWarning("Claim sync failed for user {UserId}", request.UserId);
+                throw new BusinessRuleException($"Unable to sync claims for user {request.UserId}");
+            }
 
-                if (!result)
-                {
-                    return new BaseResponse<UserManagementResponseDto>
-                    {
-                        Success = false,
-                        Message = "Failed to sync claims for user"
-                    };
-                }
+            _logger.LogInformation("Claims synced successfully for user {UserId}", request.UserId);
 
-                return new BaseResponse<UserManagementResponseDto>
+            return BaseResponse<UserManagementResponseDto>.SuccessResponse(
+                new UserManagementResponseDto
                 {
                     Success = true,
-                    Message = "Claims synced successfully",
-                    Data = new UserManagementResponseDto
-                    {
-                        Success = true,
-                        Message = "Claims synced successfully"
-                    }
-                };
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return new BaseResponse<UserManagementResponseDto>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error syncing claims for user {UserId}", request.UserId);
-                throw;
-            }
+                    Message = "Claims synced successfully"
+                },
+                "Claims synced successfully");
         }
     }
 }

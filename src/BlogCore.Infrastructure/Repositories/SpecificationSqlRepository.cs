@@ -81,7 +81,15 @@ namespace BlogCore.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IReadOnlyList<T>> FindTrackedAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
+        {
+            var query = _dbSet.AsTracking(); // Remove AsNoTracking()
 
+            if (specification.Criteria != null)
+                query = query.Where(specification.Criteria);
+
+            return await query.ToListAsync(cancellationToken);
+        }
 
 
         // CRUD Operations

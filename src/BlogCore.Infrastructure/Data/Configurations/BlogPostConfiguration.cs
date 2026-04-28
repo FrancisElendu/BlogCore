@@ -49,24 +49,6 @@ namespace BlogCore.Infrastructure.Data.Configurations
                            j.HasIndex(bpt => bpt.BlogPostId); // Add index for BlogPostId
                        }
                    );
-
-            //// ADD THIS: Many-to-many with Comments (using explicit junction entity)
-            //builder.HasMany(b => b.Comments)
-            //       .WithMany(t => t.BlogPosts)
-            //       .UsingEntity<BlogPostComments>(
-            //           j => j.HasOne(bpt => bpt.Comment)
-            //                 .WithMany()
-            //                 .HasForeignKey(bpt => bpt.CommentId),
-            //           j => j.HasOne(bpt => bpt.BlogPost)
-            //                 .WithMany()
-            //                 .HasForeignKey(bpt => bpt.BlogPostId),
-            //           j =>
-            //           {
-            //               j.HasKey(bpt => new { bpt.BlogPostId, bpt.CommentId });
-            //               j.HasIndex(bpt => bpt.CommentId);      // Add index for CommentId
-            //               j.HasIndex(bpt => bpt.BlogPostId); // Add index for BlogPostId
-            //           }
-            //       );
         }
     }
 }

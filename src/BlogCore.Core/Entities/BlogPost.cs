@@ -56,7 +56,6 @@ namespace BlogCore.Core.Entities
         public BlogPost()
         {
             Categories = new HashSet<Category>();
-            //Comments = new HashSet<Comment>();
             Tags = new HashSet<Tag>();
             CreatedAt = DateTime.UtcNow;
             Status = PostStatus.Draft;

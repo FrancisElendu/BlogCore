@@ -73,7 +73,7 @@ namespace BlogCore.Application.Features.BlogPost.Commands
                     .WhereIn(c => c.Id, request.CategoryIds)
                     .Build();
 
-                var categories = await _categoryRepository.FindAsync(categorySpec, cancellationToken);
+                var categories = await _categoryRepository.FindTrackedAsync(categorySpec, cancellationToken);
 
                 if (categories.Count != request.CategoryIds.Count)
                 {
@@ -95,7 +95,7 @@ namespace BlogCore.Application.Features.BlogPost.Commands
                     .WhereIn(t => t.Id, request.TagIds)
                     .Build();
 
-                var tags = await _tagRepository.FindAsync(tagSpec, cancellationToken);
+                var tags = await _tagRepository.FindTrackedAsync(tagSpec, cancellationToken);
 
                 if (tags.Count != request.TagIds.Count)
                 {

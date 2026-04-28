@@ -29,7 +29,6 @@ namespace BlogCore.Infrastructure.Data
         //public DbSet<User> Users { get; set; }
         public DbSet<BlogPostCategories> BlogPostCategories { get; set; }
         public DbSet<BlogPostTags> BlogPostTags { get; set; }
-        //public DbSet<BlogPostComments> BlogPostComments { get; set; }
 
         // This is where the configurations are applied
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,4 +1,5 @@
 ﻿using BlogCore.Application.Common.Base;
+using BlogCore.Application.Common.Exceptions;
 using BlogCore.Application.DTOs.Auth;
 using BlogCore.Application.Interfaces.Services;
 using MediatR;
@@ -27,37 +28,58 @@ namespace BlogCore.Application.Features.Admin.Commands.Handlers
 
                 if (!result)
                 {
-                    return new BaseResponse<UserManagementResponseDto>
-                    {
-                        Success = false,
-                        Message = "Failed to remove claim from user"
-                    };
+                    // Use your custom exceptions
+                    throw new BusinessRuleException("Failed to remove claim from user");
+
+                    //return BaseResponse<UserManagementResponseDto>.FailureResponse(
+                    //    "Failed to remove claim from user");
+                    //return new BaseResponse<UserManagementResponseDto>
+                    //{
+                    //    Success = false,
+                    //    Message = "Failed to remove claim from user"
+                    //};
                 }
 
-                return new BaseResponse<UserManagementResponseDto>
-                {
-                    Success = true,
-                    Message = "Claim removed successfully",
-                    Data = new UserManagementResponseDto
+                return BaseResponse<UserManagementResponseDto>.SuccessResponse(
+                    new UserManagementResponseDto
                     {
                         Success = true,
                         Message = "Claim removed successfully"
-                    }
-                };
+                    });
+                //return new BaseResponse<UserManagementResponseDto>
+                //{
+                //    Success = true,
+                //    Message = "Claim removed successfully",
+                //    Data = new UserManagementResponseDto
+                //    {
+                //        Success = true,
+                //        Message = "Claim removed successfully"
+                //    }
+                //};
             }
             catch (KeyNotFoundException ex)
             {
-                return new BaseResponse<UserManagementResponseDto>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
+                // Convert to your domain exception
+                throw new NotFoundException("User", request.UserId);
+
+                //_logger.LogWarning(ex, "User not found: {UserId}", request.UserId);
+                //return BaseResponse<UserManagementResponseDto>.FailureResponse(ex.Message);
+
+                //return new BaseResponse<UserManagementResponseDto>
+                //{
+                //    Success = false,
+                //    Message = ex.Message
+                //};
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error removing claim from user {UserId}", request.UserId);
-                throw;
-            }
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "Error removing claim from user {UserId}", request.UserId);
+            //    return BaseResponse<UserManagementResponseDto>.FailureResponse(
+            //        "An error occurred while removing the claim. Please try again later.");
+
+            //    //_logger.LogError(ex, "Error removing claim from user {UserId}", request.UserId);
+            //    //throw;
+            //}
         }
     }
 }

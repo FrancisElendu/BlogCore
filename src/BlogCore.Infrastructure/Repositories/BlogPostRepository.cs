@@ -50,7 +50,7 @@ namespace BlogCore.Infrastructure.Repositories
             return await FindAsync(spec, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<BlogPost>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, string sortBy="createdAt", bool descending=true, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<BlogPost>> GetPostsByAuthorAsync(Guid authorId, int page, int pageSize, string sortBy = "createdAt", bool descending = true, CancellationToken cancellationToken = default)
         {
             var builder = new SpecificationBuilder<BlogPost>()
         .Where(p => p.AuthorId == authorId);
@@ -126,7 +126,7 @@ namespace BlogCore.Infrastructure.Repositories
             return (posts, totalCount);
         }
 
-        
+
 
 
         // Specification pattern implementation

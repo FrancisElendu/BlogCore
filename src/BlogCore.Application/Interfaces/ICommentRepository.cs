@@ -1,18 +1,11 @@
 ﻿using BlogCore.Core.Entities;
-using MayFlo.Specification.Builder;
 using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Interfaces
 {
-    public interface ICommentRepository : IRepository<Comment>
+    public interface ICommentRepository : ISpecificationRepository<Comment>, IRepository<Comment>
     {
-        // Specification pattern methods
-        Task<IReadOnlyList<Comment>> FindAsync(ISpecification<Comment> specification, CancellationToken cancellationToken = default);
-        Task<Comment?> FirstOrDefaultAsync(ISpecification<Comment> specification, CancellationToken cancellationToken = default);
-        Task<int> CountAsync(ISpecification<Comment> specification, CancellationToken cancellationToken = default);
-        Task<bool> AnyAsync(ISpecification<Comment> specification, CancellationToken cancellationToken = default);
-
-        // Comment-specific methods
+        //// Comment-specific methods
         Task<IReadOnlyList<Comment>> GetCommentsForPostAsync(Guid postId, bool onlyApproved = true, CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Comment>> GetPendingCommentsAsync(CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Comment>> GetRecentCommentsAsync(int count = 10, CancellationToken cancellationToken = default);

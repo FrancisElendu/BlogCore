@@ -14,6 +14,7 @@ namespace BlogCore.Application.Interfaces
 
         // Specification pattern methods
         Task<IReadOnlyList<T>> FindAsync(ISpecification<T> specification, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<T>> FindTrackedAsync(ISpecification<T> specification, CancellationToken cancellationToken = default);
         Task<T?> FirstOrDefaultAsync(ISpecification<T> specification, CancellationToken cancellationToken = default);
         Task<int> CountAsync(ISpecification<T> specification, CancellationToken cancellationToken = default);
         Task<bool> AnyAsync(ISpecification<T> specification, CancellationToken cancellationToken = default);

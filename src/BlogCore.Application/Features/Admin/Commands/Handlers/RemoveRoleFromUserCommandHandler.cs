@@ -1,4 +1,5 @@
 ﻿using BlogCore.Application.Common.Base;
+using BlogCore.Application.Common.Exceptions;
 using BlogCore.Application.DTOs.Auth;
 using BlogCore.Application.Interfaces.Services;
 using MediatR;
@@ -20,43 +21,24 @@ namespace BlogCore.Application.Features.Admin.Commands.Handlers
         }
         public async Task<BaseResponse<UserManagementResponseDto>> Handle(RemoveRoleFromUserCommand request, CancellationToken cancellationToken)
         {
-            try
+            _logger.LogInformation("Removing role '{Role}' from user {UserId}", request.Role, request.UserId);
+
+            var result = await _userManagementService.RemoveRoleFromUserAsync(request.UserId, request.Role);
+
+            if (!result)
             {
-                var result = await _userManagementService.RemoveRoleFromUserAsync(request.UserId, request.Role);
+                throw new BusinessRuleException($"Failed to remove role '{request.Role}' from user");
+            }
 
-                if (!result)
-                {
-                    return new BaseResponse<UserManagementResponseDto>
-                    {
-                        Success = false,
-                        Message = $"Failed to remove role '{request.Role}' from user"
-                    };
-                }
+            _logger.LogInformation("Successfully removed role '{Role}' from user {UserId}", request.Role, request.UserId);
 
-                return new BaseResponse<UserManagementResponseDto>
+            return BaseResponse<UserManagementResponseDto>.SuccessResponse(
+                new UserManagementResponseDto
                 {
                     Success = true,
-                    Message = "Role removed successfully",
-                    Data = new UserManagementResponseDto
-                    {
-                        Success = true,
-                        Message = "Role removed successfully"
-                    }
-                };
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return new BaseResponse<UserManagementResponseDto>
-                {
-                    Success = false,
-                    Message = ex.Message
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error removing role from user {UserId}", request.UserId);
-                throw;
-            }
+                    Message = "Role removed successfully"
+                },
+                "Role removed successfully");
         }
     }
 }
