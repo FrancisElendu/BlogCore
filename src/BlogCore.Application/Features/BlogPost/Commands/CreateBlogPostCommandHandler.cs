@@ -4,6 +4,7 @@ using BlogCore.Application.Common.Mappings;
 using BlogCore.Application.DTOs.BlogPost;
 using BlogCore.Application.Interfaces;
 using BlogCore.Core.Entities;
+using BlogCore.Core.Enums;
 using MayFlo.Specification.Builder;
 using MediatR;
 
@@ -27,7 +28,7 @@ namespace BlogCore.Application.Features.BlogPost.Commands
         public async Task<BaseResponse<BlogPostResponseDto>> Handle(CreateBlogPostCommand request, CancellationToken cancellationToken)
         {
             // Generate slug from title
-            var slug = GenerateSlug(request.Title);
+            var slug = BaseGenerateSlug.GenerateSlug(request.Title);
 
             // Check for duplicate slug
             var existingSlugSpec = new SpecificationBuilder<BlogCore.Core.Entities.BlogPost>()
@@ -61,7 +62,7 @@ namespace BlogCore.Application.Features.BlogPost.Commands
             };
 
             // Set published date if status is Published
-            if (request.Status == Core.Enums.PostStatus.Published)
+            if (request.Status == PostStatus.Published)
             {
                 blogPost.PublishedAt = request.ScheduledPublishDate ?? DateTime.UtcNow;
             }
@@ -126,14 +127,14 @@ namespace BlogCore.Application.Features.BlogPost.Commands
             return BaseResponse<BlogPostResponseDto>.SuccessResponse(responseDto, "Blog post created successfully");
         }
 
-        private string GenerateSlug(string title)
-        {
-            var slug = title.ToLower().Trim();
-            slug = slug.Replace(" ", "-");
-            slug = System.Text.RegularExpressions.Regex.Replace(slug, @"[^a-z0-9\-]", "");
-            slug = System.Text.RegularExpressions.Regex.Replace(slug, @"\-+", "-");
-            return slug.Trim('-');
-        }
+        //private string GenerateSlug(string title)
+        //{
+        //    var slug = title.ToLower().Trim();
+        //    slug = slug.Replace(" ", "-");
+        //    slug = System.Text.RegularExpressions.Regex.Replace(slug, @"[^a-z0-9\-]", "");
+        //    slug = System.Text.RegularExpressions.Regex.Replace(slug, @"\-+", "-");
+        //    return slug.Trim('-');
+        //}
     }
 }
 

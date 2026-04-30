@@ -5,6 +5,7 @@
         Draft = 0,
         Published = 1,
         Archived = 2,
-        Scheduled = 3
+        Scheduled = 3,
+        Deleted = 4
     }
 }
