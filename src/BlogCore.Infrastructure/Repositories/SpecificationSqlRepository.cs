@@ -43,44 +43,45 @@ namespace BlogCore.Infrastructure.Repositories
             return await ApplySpecification(specification).AnyAsync(cancellationToken);
         }
 
-        // Override base methods to support specifications
-        public new async Task<IEnumerable<T>> GetPagedAsync(int page, int pageSize, ISpecification<T> specification = null, CancellationToken cancellationToken = default)
-        {
-            var query = _dbSet.AsNoTracking();
+        //// Override base methods to support specifications
+        //public new async Task<IEnumerable<T>> GetPagedAsync(int page, int pageSize, ISpecification<T> specification = null, CancellationToken cancellationToken = default)
+        //{
+        //    var query = _dbSet.AsNoTracking();
 
-            if (specification?.Criteria != null)
-                query = query.Where(specification.Criteria);
+        //    if (specification?.Criteria != null)
+        //        query = query.Where(specification.Criteria);
 
-            // Apply includes
-            query = specification?.Includes
-                .Aggregate(query, (current, include) => current.Include(include)) ?? query;
+        //    // Apply includes
+        //    query = specification?.Includes
+        //        .Aggregate(query, (current, include) => current.Include(include)) ?? query;
 
-            // Apply sorting
-            if (specification?.OrderBys.Any() == true)
-            {
-                var orderedQuery = query.OrderBy(specification.OrderBys[0]);
-                for (int i = 1; i < specification.OrderBys.Count; i++)
-                {
-                    orderedQuery = orderedQuery.ThenBy(specification.OrderBys[i]);
-                }
-                query = orderedQuery;
-            }
-            else if (specification?.OrderByDescendings.Any() == true)
-            {
-                var orderedQuery = query.OrderByDescending(specification.OrderByDescendings[0]);
-                for (int i = 1; i < specification.OrderByDescendings.Count; i++)
-                {
-                    orderedQuery = orderedQuery.ThenByDescending(specification.OrderByDescendings[i]);
-                }
-                query = orderedQuery;
-            }
+        //    // Apply sorting
+        //    if (specification?.OrderBys.Any() == true)
+        //    {
+        //        var orderedQuery = query.OrderBy(specification.OrderBys[0]);
+        //        for (int i = 1; i < specification.OrderBys.Count; i++)
+        //        {
+        //            orderedQuery = orderedQuery.ThenBy(specification.OrderBys[i]);
+        //        }
+        //        query = orderedQuery;
+        //    }
+        //    else if (specification?.OrderByDescendings.Any() == true)
+        //    {
+        //        var orderedQuery = query.OrderByDescending(specification.OrderByDescendings[0]);
+        //        for (int i = 1; i < specification.OrderByDescendings.Count; i++)
+        //        {
+        //            orderedQuery = orderedQuery.ThenByDescending(specification.OrderByDescendings[i]);
+        //        }
+        //        query = orderedQuery;
+        //    }
 
-            return await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-        }
+        //    return await query
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
+        //}
 
+        // I commented out the above method for now because I need to research how to properly implement paging with specifications, especially when it comes to applying sorting and includes. I want to make sure I'm not missing any edge cases or optimizations before finalizing that method.
         public async Task<IReadOnlyList<T>> FindTrackedAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
         {
             var query = _dbSet.AsTracking(); // Remove AsNoTracking()
