@@ -131,9 +131,6 @@ namespace BlogCore.Infrastructure.Repositories
             return CreateAsync(entity, cancellationToken);
         }
 
-        //Task ISpecificationRepository<T>.CreateAsync(T entity, CancellationToken cancellationToken)
-        //{
-        //    return CreateAsync(entity, cancellationToken);
-        //}
+        //TO DO: Research into why I had to explicitly implement the CreateAsync method here to avoid a compile error about ambiguous methods. It seems like the base class and interface methods are conflicting, but I thought the 'new' keyword would resolve that. Need to investigate further.
     }
 }
