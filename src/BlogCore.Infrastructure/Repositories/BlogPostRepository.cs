@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogCore.Infrastructure.Repositories
 {
-    public class BlogPostRepository : SpecificationSqlRepository<BlogPost>, IBlogPostRepository
+    public class BlogPostRepository : SpecificationSqlRepository<BlogPost> , IBlogPostRepository
     {
         private readonly BlogDbContext _context;
         private readonly DbSet<BlogPost> _dbSet;

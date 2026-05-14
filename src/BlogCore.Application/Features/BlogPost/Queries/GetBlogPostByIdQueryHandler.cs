@@ -6,16 +6,19 @@ using BlogCore.Application.Interfaces;
 using BlogCore.Core.Enums;
 using MayFlo.Specification.Builder;
 using MediatR;
+using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Features.BlogPost.Queries
 {
     public class GetBlogPostByIdQueryHandler : IRequestHandler<GetBlogPostByIdQuery, BaseResponse<BlogPostResponseDto>>
     {
         private readonly IBlogPostRepository _blogPostRepository;
+        private readonly IRepository<BlogCore.Core.Entities.BlogPost> _sqlRepository;
 
-        public GetBlogPostByIdQueryHandler(IBlogPostRepository blogPostRepository)
+        public GetBlogPostByIdQueryHandler(IBlogPostRepository blogPostRepository, IRepository<BlogCore.Core.Entities.BlogPost> sqlRepository)
         {
             _blogPostRepository = blogPostRepository;
+            _sqlRepository = sqlRepository;
         }
 
         public async Task<BaseResponse<BlogPostResponseDto>> Handle(GetBlogPostByIdQuery request, CancellationToken cancellationToken)
@@ -45,7 +48,8 @@ namespace BlogCore.Application.Features.BlogPost.Queries
             if (blogPost.Status == PostStatus.Published)
             {
                 blogPost.ViewCount++;
-                await _blogPostRepository.UpdateAsync(blogPost, cancellationToken);
+                //await _blogPostRepository.UpdateAsync(blogPost, cancellationToken);
+                await _sqlRepository.UpdateAsync(blogPost);
             }
 
             var responseDto = ManualMapper.MapToBlogPostResponseDto(blogPost);

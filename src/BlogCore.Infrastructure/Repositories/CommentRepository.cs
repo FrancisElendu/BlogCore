@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogCore.Infrastructure.Repositories
 {
-    public class CommentRepository : SpecificationSqlRepository<Comment>, ICommentRepository
+    public class CommentRepository : SpecificationSqlRepository<Comment> , ICommentRepository
     {
         private readonly BlogDbContext _context;
         private readonly DbSet<Comment> _dbSet;

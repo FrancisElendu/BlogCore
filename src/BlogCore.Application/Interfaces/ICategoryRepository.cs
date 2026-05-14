@@ -3,7 +3,7 @@ using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Interfaces
 {
-    public interface ICategoryRepository : ISpecificationRepository<Category>, IRepository<Category>
+    public interface ICategoryRepository : ISpecificationRepository<Category>//, IRepository<Category>
     {
         //// Category-specific methods
         Task<Category?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);

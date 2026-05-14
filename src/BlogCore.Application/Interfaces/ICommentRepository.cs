@@ -3,7 +3,7 @@ using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Interfaces
 {
-    public interface ICommentRepository : ISpecificationRepository<Comment>, IRepository<Comment>
+    public interface ICommentRepository : ISpecificationRepository<Comment>//, IRepository<Comment>
     {
         //// Comment-specific methods
         Task<IReadOnlyList<Comment>> GetCommentsForPostAsync(Guid postId, bool onlyApproved = true, CancellationToken cancellationToken = default);

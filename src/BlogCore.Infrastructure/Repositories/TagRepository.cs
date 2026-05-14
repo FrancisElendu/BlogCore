@@ -3,18 +3,21 @@ using BlogCore.Core.Entities;
 using BlogCore.Infrastructure.Data;
 using MayFlo.Specification.Builder;
 using Microsoft.EntityFrameworkCore;
+using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Infrastructure.Repositories
 {
-    public class TagRepository : SpecificationSqlRepository<Tag>, ITagRepository
+    public class TagRepository : SpecificationSqlRepository<Tag> , ITagRepository
     {
         private readonly BlogDbContext _context;
         private readonly DbSet<Tag> _dbSet;
+        private readonly IRepository<BlogCore.Core.Entities.Tag> _sqlRepository;
 
-        public TagRepository(BlogDbContext context) : base(context)
+        public TagRepository(BlogDbContext context, IRepository<BlogCore.Core.Entities.Tag> sqlRepository) : base(context)
         {
             _context = context;
             _dbSet = context.Set<Tag>();
+            _sqlRepository = sqlRepository;
         }
 
         // Tag-specific implementations
@@ -101,7 +104,9 @@ namespace BlogCore.Infrastructure.Repositories
                 CreatedAt = DateTime.UtcNow
             };
 
-            await CreateAsync(tag);
+            //await CreateAsync(tag);
+
+            await _sqlRepository.CreateAsync(tag);
             return tag;
         }
 

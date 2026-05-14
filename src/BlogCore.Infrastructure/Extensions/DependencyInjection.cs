@@ -69,8 +69,6 @@ namespace BlogCore.Infrastructure.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
-
-
         }
     }
 }

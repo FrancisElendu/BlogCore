@@ -7,6 +7,8 @@ using BlogCore.Core.Entities;
 using BlogCore.Core.Enums;
 using MayFlo.Specification.Builder;
 using MediatR;
+using MSSQLFlexCrud.Repositories;
+using MSSQLFlexCrud.SqlDb;
 
 namespace BlogCore.Application.Features.BlogPost.Commands
 {
@@ -15,15 +17,17 @@ namespace BlogCore.Application.Features.BlogPost.Commands
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ITagRepository _tagRepository;
+        private readonly IRepository<BlogCore.Core.Entities.BlogPost> _sqlRepository;
 
         public UpdateBlogPostCommandHandler(
             IBlogPostRepository blogPostRepository,
             ICategoryRepository categoryRepository,
-            ITagRepository tagRepository)
+            ITagRepository tagRepository, IRepository<BlogCore.Core.Entities.BlogPost> sqlRepository)
         {
             _blogPostRepository = blogPostRepository;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
+            _sqlRepository = sqlRepository;
         }
 
         public async Task<BaseResponse<BlogPostResponseDto>> Handle(UpdateBlogPostCommand request, CancellationToken cancellationToken)
@@ -146,7 +150,8 @@ namespace BlogCore.Application.Features.BlogPost.Commands
             }
 
             // Save changes
-            await _blogPostRepository.UpdateAsync(blogPost);
+            //await _blogPostRepository.UpdateAsync(blogPost);
+            await _sqlRepository.UpdateAsync(blogPost);
 
             // Get updated post with includes for response
             var updatedSpec = new SpecificationBuilder<BlogCore.Core.Entities.BlogPost>()

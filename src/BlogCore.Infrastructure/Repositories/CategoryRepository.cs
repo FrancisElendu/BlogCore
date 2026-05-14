@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogCore.Infrastructure.Repositories
 {
-    public class CategoryRepository : SpecificationSqlRepository<Category>, ICategoryRepository
+    public class CategoryRepository : SpecificationSqlRepository<Category> , ICategoryRepository
     {
         private readonly BlogDbContext _context;
         private readonly DbSet<Category> _dbSet;

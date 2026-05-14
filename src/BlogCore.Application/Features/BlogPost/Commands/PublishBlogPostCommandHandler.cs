@@ -3,22 +3,26 @@ using BlogCore.Application.Common.Exceptions;
 using BlogCore.Application.Interfaces;
 using BlogCore.Core.Enums;
 using MediatR;
+using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Features.BlogPost.Commands
 {
     public class PublishBlogPostCommandHandler : IRequestHandler<PublishBlogPostCommand, BaseResponse<bool>>
     {
         private readonly IBlogPostRepository _blogPostRepository;
+        private readonly IRepository<BlogCore.Core.Entities.BlogPost> _sqlRepository;
 
-        public PublishBlogPostCommandHandler(IBlogPostRepository blogPostRepository)
+        public PublishBlogPostCommandHandler(IBlogPostRepository blogPostRepository, IRepository<BlogCore.Core.Entities.BlogPost> sqlRepository)
         {
             _blogPostRepository = blogPostRepository;
+            _sqlRepository = sqlRepository;
         }
 
         public async Task<BaseResponse<bool>> Handle(PublishBlogPostCommand request, CancellationToken cancellationToken)
         {
             // Get existing blog post
-            var blogPost = await _blogPostRepository.GetByIdAsync(request.Id, cancellationToken);
+            //var blogPost = await _blogPostRepository.GetByIdAsync(request.Id, cancellationToken);
+            var blogPost = await _sqlRepository.GetByIdAsync(request.Id);
 
             if (blogPost == null)
             {
@@ -68,7 +72,8 @@ namespace BlogCore.Application.Features.BlogPost.Commands
             blogPost.PublishedAt = DateTime.UtcNow;
             blogPost.UpdatedAt = DateTime.UtcNow;
 
-            await _blogPostRepository.UpdateAsync(blogPost, cancellationToken);
+            //await _blogPostRepository.UpdateAsync(blogPost, cancellationToken);
+            await _sqlRepository.UpdateAsync(blogPost);
 
             return BaseResponse<bool>.SuccessResponse(true, "Blog post published successfully");
         }

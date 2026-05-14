@@ -10,13 +10,13 @@ namespace BlogCore.Infrastructure.Repositories
     /// <summary>
     /// Extension of SqlRepository that adds Specification pattern support
     /// </summary>
-    public class SpecificationSqlRepository<T> : SqlRepository<T>, ISpecificationRepository<T>
+    public class SpecificationSqlRepository<T> : ISpecificationRepository<T>  //SqlRepository<T>, 
         where T : class, IEntity
     {
         private readonly BlogDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public SpecificationSqlRepository(BlogDbContext context) : base(context)
+        public SpecificationSqlRepository(BlogDbContext context) //: base(context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -93,44 +93,44 @@ namespace BlogCore.Infrastructure.Repositories
         }
 
 
-        // CRUD Operations
-        public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
-        }
-
-        public virtual async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            await _dbSet.AddAsync(entity, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return entity;
-        }
-
-        public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            _dbSet.Update(entity);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public virtual async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var entity = await GetByIdAsync(id, cancellationToken);
-            if (entity != null)
-            {
-                _dbSet.Remove(entity);
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-        }
-
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_dbSet, spec);
         }
 
-        Task ISpecificationRepository<T>.CreateAsync(T entity, CancellationToken cancellationToken)
-        {
-            return CreateAsync(entity, cancellationToken);
-        }
+        //// CRUD Operations
+        //public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        //{
+        //    return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+        //}
+
+        //public virtual async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
+        //{
+        //    await _dbSet.AddAsync(entity, cancellationToken);
+        //    await _context.SaveChangesAsync(cancellationToken);
+        //    return entity;
+        //}
+
+        //public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        //{
+        //    _dbSet.Update(entity);
+        //    await _context.SaveChangesAsync(cancellationToken);
+        //}
+
+        //public virtual async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        //{
+        //    var entity = await GetByIdAsync(id, cancellationToken);
+        //    if (entity != null)
+        //    {
+        //        _dbSet.Remove(entity);
+        //        await _context.SaveChangesAsync(cancellationToken);
+        //    }
+        //}
+
+        //Task ISpecificationRepository<T>.CreateAsync(T entity, CancellationToken cancellationToken)
+        //{
+        //    return CreateAsync(entity, cancellationToken);
+        //}
 
         //TO DO: Research into why I had to explicitly implement the CreateAsync method here to avoid a compile error about ambiguous methods. It seems like the base class and interface methods are conflicting, but I thought the 'new' keyword would resolve that. Need to investigate further.
     }

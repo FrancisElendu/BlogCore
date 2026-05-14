@@ -8,6 +8,7 @@ using BlogCore.Core.Entities;
 using BlogCore.Core.Enums;
 using MayFlo.Specification.Builder;
 using MediatR;
+using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Features.BlogPost.Queries
 {
@@ -15,13 +16,15 @@ namespace BlogCore.Application.Features.BlogPost.Queries
     {
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly ITagRepository _tagRepository;
+        private readonly IRepository<BlogCore.Core.Entities.Tag> _sqlRepository;
 
         public GetBlogPostsByTagQueryHandler(
             IBlogPostRepository blogPostRepository,
-            ITagRepository tagRepository)
+            ITagRepository tagRepository, IRepository<BlogCore.Core.Entities.Tag> sqlRepository)
         {
             _blogPostRepository = blogPostRepository;
             _tagRepository = tagRepository;
+            _sqlRepository = sqlRepository;
         }
 
         public async Task<BaseResponse<PagedResult<BlogPostSummaryDto>>> Handle(GetBlogPostsByTagQuery request, CancellationToken cancellationToken)
@@ -30,7 +33,8 @@ namespace BlogCore.Application.Features.BlogPost.Queries
             ValidatePaginationParameters.PaginationParameters(request.PageNumber, request.PageSize);
 
             // Validate tag exists
-            var tag = await _tagRepository.GetByIdAsync(request.TagId, cancellationToken);
+            //var tag = await _tagRepository.GetByIdAsync(request.TagId, cancellationToken);
+            var tag = await _sqlRepository.GetByIdAsync(request.TagId);
             if (tag == null)
             {
                 throw new NotFoundException(nameof(Tag), request.TagId);

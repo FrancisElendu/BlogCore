@@ -8,6 +8,7 @@ using BlogCore.Core.Entities;
 using BlogCore.Core.Enums;
 using MayFlo.Specification.Builder;
 using MediatR;
+using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Features.BlogPost.Queries
 {
@@ -15,13 +16,15 @@ namespace BlogCore.Application.Features.BlogPost.Queries
     {
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IRepository<BlogCore.Core.Entities.Category> _sqlRepository;
 
         public GetBlogPostsByCategoryQueryHandler(
             IBlogPostRepository blogPostRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository, IRepository<BlogCore.Core.Entities.Category> sqlRepository)
         {
             _blogPostRepository = blogPostRepository;
             _categoryRepository = categoryRepository;
+            _sqlRepository = sqlRepository;
         }
 
         public async Task<BaseResponse<PagedResult<BlogPostSummaryDto>>> Handle(GetBlogPostsByCategoryQuery request, CancellationToken cancellationToken)
@@ -30,7 +33,8 @@ namespace BlogCore.Application.Features.BlogPost.Queries
             ValidatePaginationParameters.PaginationParameters(request.PageNumber, request.PageSize);
 
             // Validate category exists
-            var category = await _categoryRepository.GetByIdAsync(request.CategoryId, cancellationToken);
+            //var category = await _categoryRepository.GetByIdAsync(request.CategoryId, cancellationToken);
+            var category = await _sqlRepository.GetByIdAsync(request.CategoryId);
             if (category == null)
             {
                 throw new NotFoundException(nameof(Category), request.CategoryId);

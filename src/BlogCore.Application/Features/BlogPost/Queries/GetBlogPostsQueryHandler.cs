@@ -4,7 +4,6 @@ using BlogCore.Application.DTOs.BlogPost;
 using BlogCore.Application.Features.BlogPost.Queries.Filters;
 using BlogCore.Application.Features.BlogPost.Validations;
 using BlogCore.Application.Interfaces;
-using BlogCore.Core.Enums;
 using MayFlo.Specification.Builder;
 using MediatR;
 

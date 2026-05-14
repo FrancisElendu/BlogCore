@@ -3,7 +3,7 @@ using MSSQLFlexCrud.Repositories;
 
 namespace BlogCore.Application.Interfaces
 {
-    public interface IBlogPostRepository : ISpecificationRepository<BlogPost>, IRepository<BlogPost>
+    public interface IBlogPostRepository : ISpecificationRepository<BlogPost>  //, IRepository<BlogPost>
     {
         // Domain-specific methods
         Task<IReadOnlyList<BlogPost>> GetPopularPostsAsync(int count, CancellationToken cancellationToken = default);
